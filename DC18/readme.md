@@ -1,4 +1,4 @@
-Polygonization sytem (not working)
+Polygonization system (not working, but work in progress)
  
  <DCworkbench.scad>  main
  
