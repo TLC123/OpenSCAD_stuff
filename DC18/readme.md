@@ -18,3 +18,5 @@ Polygonization system (not working, but work in progress)
  
  <polytools.scad> polymesh utiliies
  
+![Base mesh](https://github.com/TLC123/OpenSCAD_stuff/edit/master/DC18/a.JPG)
+
