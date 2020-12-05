@@ -4,14 +4,23 @@
 // Signed distans function can be output as polyhedron.
 // Quality and problens is as expected with MarchingCubes
 ////////////// DEMO ////////////////////////////////////////////////////////////
-sdScene   = function(p) min(
-  max(abs(p.x)-6.5,abs(p.y+3)-4.5,abs(p.z*.7-p.x*.7)-0.5)  ,
-  max(abs(p.x)-6.5,abs(p.y-3)-4.5,abs(p.z*.7+p.x*.7)-0.5)  ,
-  norm(p )-5.5 ); // function literal of our Signed distance function
+sdScene   =  function(p) smin(min(
+  max(abs(p.x+p.z*.7)-6.5,abs(p.y+3)-4.5,abs(p.z*.7-p.x*.7)-0.5)  ,
+  max(abs(p.x*.7-p.z*.7)-6.5,abs(p.y-3)-4.5,abs(p.z*.7+p.x*.7)-0.5) ) ,
+  norm(p )-4.5,2 ); 
+  
+  
+function smin(a, b, k = .1) =
+let (h = clamp(0.5 + 0.5 * (b - a) / k, 0.0, 1.0)) mix(b, a, h) - k * h * (1.0 - h);
+function smax(a, b, k = .1) =
+let () - smin(-a, -b, k);
+function mix(b, a, h) = lerp(b, a, h);
+
+  // function literal of our Signed distance function
   // learn more at https://iquilezles.org/www/articles/distfunctions/distfunctions.htm
 
 sdDemo= true;
-if(sdDemo) sdMarchingCubes(sdScene,sub=5);
+if(sdDemo) sdMarchingCubes(sdScene  ,sub=4);
 
 /////////////////////////////////////////////////////////////////////////////////////
 //sdMC is a Octree subdivision MarchingCubes with direct gemoetry output
