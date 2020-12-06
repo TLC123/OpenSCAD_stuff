@@ -30,7 +30,8 @@ if(sdDemo) sdMarchingCubes(sdScene  ,sub=4);
 if (cell==[]) sdMarchingCubes(sdScene,autoBound(sdScene,cubic=true,pad=0.5 ),sub); else{
     O = cell[0]; S = cell[1];  C = (O + S) / 2; D = S - O;
     maxD = max( abs (D.x),abs (D.y),abs (D.z));
-     if (abs(sdScene(C))<=maxD )//ignore completly empty or full cells
+     if (abs(sdScene(C))<=maxD *.87)//ignore completly empty or full cells 
+         //.87 is shy over sqrt(3)/2
     {        p=vertFromCell  (cell) ;
              evals=[for(p=p)eval(p,sdScene)]; 
              case=bitMaskToValue(evals);
