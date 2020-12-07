@@ -27,7 +27,7 @@ if(sdDemo){
     echo(" sdMarchingCubes() Usage: sdMarchingCubes( sdScene = f ( [ x , y , z ] ) , sub = subdivisions ) ");sdMarchingCubes(sdScene  ,sub=4 );
 
  c=autoBound(sdScene,cubic = $cubicBound,pad=$boundingBoxPadding);
- echo(c);
+// echo(c);
  #translate(c[0])cube(c[1]-c[0]); 
     }
 
@@ -83,7 +83,8 @@ function autoBound(sdScene,cubic = true, pad  ) =    let (
     north = findBound([0,1,0],sdScene),    south = -findBound([ 0,-1,0],sdScene),
     up = findBound([0,0,1],sdScene),    down = -findBound([0,0,-1],sdScene),
   cell= bflip([[west,north,up],[east,south,down]]),
-      O = cell[0], S = cell[1],  C = (O + S) / 2, D = S - O,  ec=echo(cell,D),
+      O = cell[0], S = cell[1],  C = (O + S) / 2, D = S - O, 
+// ec=echo(cell,D),
 
     maxD = max(   D.x,  D.y,  D.z    )) 
  
