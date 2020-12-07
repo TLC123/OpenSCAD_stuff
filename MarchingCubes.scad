@@ -4,11 +4,11 @@
 // Signed distans function can be output as polyhedron.
 // Quality and problens is as expected with MarchingCubes
 ////////////// DEMO ////////////////////////////////////////////////////////////
-//sdScene   =  function(p) smin(min(
-//  max(abs(p.x+p.z*.7)-6.5,abs(p.y+3)-4.5,abs(p.z*.7-p.x*.7)-0.5)  ,
-//  max(abs(p.x*.7-p.z*.7)-6.5,abs(p.y-3)-4.5,abs(p.z*.7+p.x*.7)-0.5) ) ,
-//  norm(p )-4.5,2 ); 
-  sdScene   =  function(p)    norm(p )-4.5 ; 
+ sdScene   =  function(p) let(p=p-[0,5,10])smin(min(
+  max(abs(p.x )-.5,abs(p.y+3)-6.5,abs(p.z )-6.5)  ,
+  max(abs(p.x )-6.5,abs(p.y-3)-6.5,abs(p.z )-0.5) ) ,
+  norm(p )-4.5,2 ); 
+//  sdScene   =  function(p)    norm(p )-4.5 ; 
   
 function smin(a, b, k = .1) =
 let (h = clamp(0.5 + 0.5 * (b - a) / k, 0.0, 1.0)) mix(b, a, h) - k * h * (1.0 - h);
@@ -18,10 +18,18 @@ function mix(b, a, h) = lerp(b, a, h);
 
   // function literal of our Signed distance function
   // learn more at https://iquilezles.org/www/articles/distfunctions/distfunctions.htm
-$boundingBoxPadding=.2;
+$boundingBoxPadding=00;
 $cubicBound=false;
 sdDemo= true;
-if(sdDemo)echo("Demo: sdDemo= false; to turn of demo") echo(" sdMarchingCubes() Usage: sdMarchingCubes( sdScene = f ( [ x , y , z ] ) , sub = subdivisions ) ")sdMarchingCubes(sdScene  ,sub=4 );
+$fastBailout=0.87;
+if(sdDemo){
+    echo("Demo: sdDemo= false; to turn of demo");
+    echo(" sdMarchingCubes() Usage: sdMarchingCubes( sdScene = f ( [ x , y , z ] ) , sub = subdivisions ) ");sdMarchingCubes(sdScene  ,sub=4 );
+
+ c=autoBound(sdScene,cubic = $cubicBound,pad=$boundingBoxPadding);
+ echo(c);
+ #translate(c[0])cube(c[1]-c[0]); 
+    }
 
 /////////////////////////////////////////////////////////////////////////////////////
 //sdMC is a Octree subdivision MarchingCubes with direct gemoetry output
@@ -31,7 +39,7 @@ if(sdDemo)echo("Demo: sdDemo= false; to turn of demo") echo(" sdMarchingCubes() 
 if (cell==[]) sdMarchingCubes(sdScene,autoBound(sdScene,cubic=$cubicBound,pad=$boundingBoxPadding ),sub ); else{
     O = cell[0]; S = cell[1];  C = (O + S) / 2; D = S - O;
     maxD = max( abs (D.x),abs (D.y),abs (D.z));
-     if (abs(sdScene(C))<=maxD*0.87 )//ignore completly empty or full cells
+     if (abs(sdScene(C))<=maxD*$fastBailout )//ignore completly empty or full cells
     {        p=vertFromCell  (cell) ;
              evals=[for(p=p)eval(p,sdScene)]; 
              case=bitMaskToValue(evals);
@@ -71,21 +79,22 @@ function bflip(a,b) = is_undef(b)&&len(a)==2?bflip(a[0],a[1]):[ [min(a.x,b.x),mi
  //////////////////////////////////////////////////////////////////////////////////////
 function autoBound(sdScene,cubic = true, pad  ) =    let (
  pad=is_undef(pad)?.2:pad,
-    up = findBound([0,0,1],sdScene),    down = -findBound([0,0,-1],sdScene),
+    west = findBound([1,0,0],sdScene),    east = -findBound([-1,0,0],sdScene),
     north = findBound([0,1,0],sdScene),    south = -findBound([ 0,-1,0],sdScene),
-    west = findBound([1,0,0],sdScene),    east = -findBound([- 1,0,0],sdScene),
-    scenecenter=[(east+west)/2,(south+north)/2,(up+down)/2],
-    esd = min(east,south,down),wnu = max(west,north,up)    ) 
+    up = findBound([0,0,1],sdScene),    down = -findBound([0,0,-1],sdScene),
+  cell= bflip([[west,north,up],[east,south,down]]),
+      O = cell[0], S = cell[1],  C = (O + S) / 2, D = S - O,  ec=echo(cell,D),
+
+    maxD = max(   D.x,  D.y,  D.z    )) 
+ 
 cubic == true ?
-let(
-    scenemax=max(abs(east-west),abs(south-north),abs(up-down))/2,
-    d = [scenemax,scenemax,scenemax]* (1+pad)   )
-    [scenecenter - d  ,scenecenter + d ]  :
-    let (d = (([west,north,up ] - [east,south,down])/2)*(1+pad))
-    [scenecenter - d  ,scenecenter + d ] ;
+    let(   d = ([maxD,maxD,maxD]/2)* (1+pad)   )
+    [C - d  ,C + d ]  : 
+    let(   d = (D /2)* (1+pad)   )
+    [C - d  ,C + d ] ;
 //////////////////////////////////////////////////////////////////////////////////////
 function findBound(vec,sdScene) =
-let (VeryFar = 1e4,  p1 = vec * VeryFar, p2 = p1 + un(vec  ),
+let (VeryFar = 1e7,  p1 = vec * VeryFar, p2 = p1 +  vec  ,
 e1 = abs(eval(p1,sdScene)),  e2 = abs(eval(p2,sdScene)),
 scale = abs(e2 - e1),// Account for non unit_for_unit field.
 corrected = (e1 / scale), distance = VeryFar - e1/scale //distance= VeryFar-corrected
