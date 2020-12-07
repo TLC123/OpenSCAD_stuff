@@ -4,11 +4,11 @@
 // Signed distans function can be output as polyhedron.
 // Quality and problens is as expected with MarchingCubes
 ////////////// DEMO ////////////////////////////////////////////////////////////
-sdScene   =  function(p) smin(min(
-  max(abs(p.x+p.z*.7)-6.5,abs(p.y+3)-4.5,abs(p.z*.7-p.x*.7)-0.5)  ,
-  max(abs(p.x*.7-p.z*.7)-6.5,abs(p.y-3)-4.5,abs(p.z*.7+p.x*.7)-0.5) ) ,
-  norm(p )-4.5,2 ); 
-  
+//sdScene   =  function(p) smin(min(
+//  max(abs(p.x+p.z*.7)-6.5,abs(p.y+3)-4.5,abs(p.z*.7-p.x*.7)-0.5)  ,
+//  max(abs(p.x*.7-p.z*.7)-6.5,abs(p.y-3)-4.5,abs(p.z*.7+p.x*.7)-0.5) ) ,
+//  norm(p )-4.5,2 ); 
+  sdScene   =  function(p)    norm(p )-4.5 ; 
   
 function smin(a, b, k = .1) =
 let (h = clamp(0.5 + 0.5 * (b - a) / k, 0.0, 1.0)) mix(b, a, h) - k * h * (1.0 - h);
@@ -18,27 +18,27 @@ function mix(b, a, h) = lerp(b, a, h);
 
   // function literal of our Signed distance function
   // learn more at https://iquilezles.org/www/articles/distfunctions/distfunctions.htm
-
+$boundingBoxPadding=.2;
+$cubicBound=false;
 sdDemo= true;
-if(sdDemo) sdMarchingCubes(sdScene  ,sub=4);
+if(sdDemo)echo("Demo: sdDemo= false; to turn of demo") echo(" sdMarchingCubes() Usage: sdMarchingCubes( sdScene = f ( [ x , y , z ] ) , sub = subdivisions ) ")sdMarchingCubes(sdScene  ,sub=4 );
 
 /////////////////////////////////////////////////////////////////////////////////////
 //sdMC is a Octree subdivision MarchingCubes with direct gemoetry output
- module sdMarchingCubes(sdScene, cell=[],sub){
+ module sdMarchingCubes(sdScene, cell=[],sub ){
      assert(!is_undef(sub)&&!is_undef(sdScene),
      " sdMarchingCubes() Usage: sdMarchingCubes( sdScene = f ( [ x , y , z ] ) , sub = subdivisions ) ")
-if (cell==[]) sdMarchingCubes(sdScene,autoBound(sdScene,cubic=true,pad=0.5 ),sub); else{
+if (cell==[]) sdMarchingCubes(sdScene,autoBound(sdScene,cubic=$cubicBound,pad=$boundingBoxPadding ),sub ); else{
     O = cell[0]; S = cell[1];  C = (O + S) / 2; D = S - O;
     maxD = max( abs (D.x),abs (D.y),abs (D.z));
-     if (abs(sdScene(C))<=maxD *.87)//ignore completly empty or full cells 
-         //.87 is shy over sqrt(3)/2
+     if (abs(sdScene(C))<=maxD*0.87 )//ignore completly empty or full cells
     {        p=vertFromCell  (cell) ;
              evals=[for(p=p)eval(p,sdScene)]; 
              case=bitMaskToValue(evals);
           if (sub>0){  // subdivide cell into eight  smaller if subdivisions left      
                     pxxx=[O+[0,0,0],O+[D.x,0,0],O+[0,D.y,0],O+[0,D.y,D.z],
                     O+[0,0,D.z],O+[D.x,D.y,0],O+[D.x,0,D.z],O+[D.x,D.y,D.z]];
-                    for(i=[0:7]){sdMarchingCubes(sdScene,([C,pxxx[i]]),sub-1 );  }    } 
+                    for(i=[0:7]){sdMarchingCubes(sdScene,([C,pxxx[i]]),sub-1  );  }    } 
          
         else         { // Make polyhedron of this cell
             faces=(CASES()[ (case)]); // Use MC 256 table to find conectivity
@@ -69,21 +69,23 @@ function bitMaskToValue(v=[0])= is_undef(v[0])?0:
 // arrange bundary box from sloppy to proper orientation of minor corner and major corner
 function bflip(a,b) = is_undef(b)&&len(a)==2?bflip(a[0],a[1]):[ [min(a.x,b.x),min(a.y,b.y),min(a.z,b.z)], [max(a.x,b.x),max(a.y,b.y),max(a.z,b.z)] ];
  //////////////////////////////////////////////////////////////////////////////////////
-function autoBound(sdScene,cubic = (false),pad = 1) =    let (
+function autoBound(sdScene,cubic = true, pad  ) =    let (
+ pad=is_undef(pad)?.2:pad,
     up = findBound([0,0,1],sdScene),    down = -findBound([0,0,-1],sdScene),
     north = findBound([0,1,0],sdScene),    south = -findBound([ 0,-1,0],sdScene),
     west = findBound([1,0,0],sdScene),    east = -findBound([- 1,0,0],sdScene),
+    scenecenter=[(east+west)/2,(south+north)/2,(up+down)/2],
     esd = min(east,south,down),wnu = max(west,north,up)    ) 
 cubic == true ?
-let(scenecenter=[(east+west)/2,(south+north)/2,(up+down)/2],
-    scenemax=max(abs(east-west),abs(south-north),abs(up+down))/2,
-    d = [scenemax,scenemax,scenemax]   )
-    [scenecenter - (d * (1+pad)),scenecenter + d * (1+pad)]  :
-    let (d = [west,north,up ] - [east,south,down])
-    [[east,south,down ] - d * pad,[west,north,up] + d * pad];
+let(
+    scenemax=max(abs(east-west),abs(south-north),abs(up-down))/2,
+    d = [scenemax,scenemax,scenemax]* (1+pad)   )
+    [scenecenter - d  ,scenecenter + d ]  :
+    let (d = (([west,north,up ] - [east,south,down])/2)*(1+pad))
+    [scenecenter - d  ,scenecenter + d ] ;
 //////////////////////////////////////////////////////////////////////////////////////
 function findBound(vec,sdScene) =
-let (VeryFar = 10e6,  p1 = vec * VeryFar, p2 = p1 + un(vec  ),
+let (VeryFar = 1e4,  p1 = vec * VeryFar, p2 = p1 + un(vec  ),
 e1 = abs(eval(p1,sdScene)),  e2 = abs(eval(p2,sdScene)),
 scale = abs(e2 - e1),// Account for non unit_for_unit field.
 corrected = (e1 / scale), distance = VeryFar - e1/scale //distance= VeryFar-corrected
