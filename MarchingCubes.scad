@@ -28,7 +28,7 @@ if(sdDemo){
 
  c=autoBound(sdScene,cubic = $cubicBound,pad=$boundingBoxPadding);
 // echo(c);
- #translate(c[0])cube(c[1]-c[0]); 
+%translate(c[0])cube(c[1]-c[0]); 
     }
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -46,7 +46,7 @@ if (cell==[]) sdMarchingCubes(sdScene,autoBound(sdScene,cubic=$cubicBound,pad=$b
           if (sub>0){  // subdivide cell into eight  smaller if subdivisions left      
                     pxxx=[O+[0,0,0],O+[D.x,0,0],O+[0,D.y,0],O+[0,D.y,D.z],
                     O+[0,0,D.z],O+[D.x,D.y,0],O+[D.x,0,D.z],O+[D.x,D.y,D.z]];
-                    for(i=[0:7]){sdMarchingCubes(sdScene,([C,pxxx[i]]),sub-1  );  }    } 
+                    for(i=[0:7]){sdMarchingCubes(sdScene,bflip([C,pxxx[i]]),sub-1  );  }    } 
          
         else         { // Make polyhedron of this cell
             faces=(CASES()[ (case)]); // Use MC 256 table to find conectivity
