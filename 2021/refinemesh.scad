@@ -1,28 +1,30 @@
 include <BOSL2/std.scad>
-include <BOSL2/polyhedra.scad>
-include <BOSL2/vnf.scad>
-include <BOSL2/triangulation.scad>
-include <BOSL2/skin.scad>
+//include <BOSL2/polyhedra.scad>
+//include <BOSL2/vnf.scad>
+//include <BOSL2/triangulation.scad>
+//include <BOSL2/skin.scad>
 
 lshape=[[-5,-5],[5,-5],[5,0],[0,0],[0,5],[-5,5]];
 path_transforms=[affine3d_translate([0,0,0]),affine3d_translate([0,-2,4.5]),affine3d_translate([0,2,9])];
 // s = triangulate_vnf(move([0, 0, -4], sweep(lshape, path_transforms)));
 //// s = triangulate_vnf(move([0, 0,0  ], cylinder(5,3,3)));
- s =  triangulate_vnf(move([0, 0,0  ], cylinder(5,3,3)));
+// s =  triangulate_vnf(move([0, 0,0  ], cube([8,8,8],center=true)));
+ s =   (  quadcube([8,8,8],center=true));
 
  // polyhedronMesh(s);
-  bend=makeFunction_bend(180,[5,0,0]);
+  bend=makeFunction_bend(360,[5,0,0]);
 // echo(ref);
 // echo(ref==s);
+d=spherify(refine(s,.75));
 
-bendt= refine(refine(s,5),.5,bend );
+bendt= refine(d, .5,bend );
 //echo(T);
 color("lightgreen")  polyhedronMesh(bendt);
-//color("lightgreen")  polyhedronMesh( s );
+ color("lightgreen")  polyhedronMesh( d );
 // 
 
 
-
+function spherify(m)=[[for(p=m[0])un(p)*4+[1,2,0]],m[1]];
  
 function refine(m,limit,transform,thisCut)=
 let(nullfunc=function(x)x)
@@ -39,6 +41,7 @@ let (tpoints=transform (m )[0])
  ;
 
 function split(vs,tvs, egdelimit) =
+    len(vs)==4?quadsplit(vs,tvs, egdelimit):
 let (e01 = dotself(tvs[0] - tvs[1]))
 let (e12 = dotself(tvs[1] - tvs[2]))
 let (e20 = dotself(tvs[2] - tvs[0]))
@@ -61,6 +64,48 @@ dotself(nvs[1] - nvs[4]) < dotself(nvs[0] - nvs[3]) ? [nvs, [[0, 1, 4],[1, 3, 4]
 [nvs, [[0, 1, 3],[0, 3, 4],[1, 2, 3]]]: 
 [vs, [[0, 1, 2]]];
 
+
+function quadsplit(vs,tvs, egdelimit) =
+let (e01 = dotself(tvs[0] - tvs[1]))
+let (e12 = dotself(tvs[1] - tvs[2]))
+let (e23 = dotself(tvs[2] - tvs[3]))
+let (e30 = dotself(tvs[3] - tvs[0]))
+
+let (sqEdgeLimit = egdelimit * egdelimit)
+ let (truth = [e01 > sqEdgeLimit, e12 > sqEdgeLimit, e23 > sqEdgeLimit, e30 > sqEdgeLimit])
+
+let (nvs = [vs[0], (vs[0] + vs[1]) / 2,vs[1], (vs[1] + vs[2]) / 2, vs[2], (vs[2] + vs[3]) / 2, 
+vs[3], (vs[3] + vs[0]) / 2, ( vs[0]+vs[1]+vs[2]+vs[3] ) / 4] )
+let(quads=bitMaskToValue(truth))
+//echo(quads,truth)
+[nvs,quadtable(quads)]
+
+;
+    function quadtable(i)=
+[
+[[0,2,4,6]],//0
+[[0,1,8,6],[1,2,4,8],[4,6,8]],//1
+[[2,3,8,0],[3,4,6,8],[0,8,6]],//2
+[[1,2,3,8],[3,4,6,8],[0,1,8,6]],//3
+[[5,6,0,8],[2,4,5,8],[0,2,8]],//4
+[[0,1,5,6],[1,2,4,5]],//5
+[[3,4,5,8],[0,2,3,8],[0,8,5,6]],//6
+[[0,1,5,6],[1,3,4,5],[1,2,3]],//7
+[[4,6,7,8],[0,2,8,7],[2,4,8]],//8
+[[0,1,8,7],[1,2,4,8],[4,6,7,8]],//9
+[[0,2,3,7],[3,4,6,7]],//10
+[[3,4,6,7],[1,2,3,7],[0,1,7]],//11
+[[5,6,7,8],[0,2,8,7],[2,4,5,8]],//12
+[[2,4,5,1],[0,1,5,7],[5,6,7]],//13
+[[0,2,3,7],[7,3,5,6],[3,4,5]],//14
+[[7,0,1,8],[1,2,3,8],[3,4,5,8],[5,6,7,8]],//15
+][i];
+function bitMaskToValue(v=[0])= is_undef(v[0])?0:
+ [for(j=v)1]* [for (i=[0:max(0,len(v)-1)]) toBit(v[i])*pow(2,i)] ;
+function toBit(i) =is_bool(i)? (i?1:0):max(0,sign(i));
+
+
+
   function makeFunction_bend(x,y)=  function(m )  bendwork(m,x,y );
 
 function bendwork(m,a,o) =
@@ -72,15 +117,24 @@ let(points=m[0],faces=m[1])
 let(
 points=[for(p=points)
     let(po=p.z/ztot)
-    let(p=[p.x,p.y,0]-o) 
+//    let(p=[p.x,p.y,p.z]-o) 
     let(p=concat(p,[1]) ) 
 let (p=p*
+//[
+//    [ cos(po *a), 0, sin(po *a),   0],
+//    [        0, 1,        0,   0],
+//    [-sin(po *a), 0, cos(po *a),   0],
+//    [        0, 0,        0,   1]
+//]
+
 [
-    [ cos(po *a), 0, sin(po *a),   0],
-    [        0, 1,        0,   0],
-    [-sin(po *a), 0, cos(po *a),   0],
-    [        0, 0,        0,   1]
-])
+    [ cos(po *a),  sin(po *a),0,   0],
+    [-sin(po *a), cos(po *a),  0,   0],
+    [           0,        0,  1,   0],
+    [           0,        0,  0,   1]
+]
+
+)
     let(p=[p.x,p.y,p.z])
     let(p=p+o) 
 p
@@ -178,3 +232,9 @@ last-first>1? let(mid=(first+last)/2)
 uniquejoin(  unique(m,first,floor(mid)),         unique(m,ceil(mid),last) )
  :m[first]==undef? [m[last]]: m[last]==undef?[m[first]] :concat([m[first]],[if( m[last]!=m[first])m[last]] ) ;
 
+function quadcube (v,center)=let(x=v.x,y=v.y,z=v.z,o=center?[0,0,0]:v )
+ [[[x,y,z]+o,[-x,y,z]+o,[-x,-y,z]+o,[x,-y,z]+o,[x,y,-z]+o,[-x,y,-z]+o,[-x,-y,-z]+o,[x,-y,-z]+o ]*.5 , [[3, 2, 1, 0], [1, 5, 4, 0], [2, 6, 5, 1], [3, 7, 6, 2], [0, 4, 7, 3], [4, 5, 6, 7], [3, 2, 1, 0]]]  
+ 
+ ;
+  module polyhedronMesh(mesh){polyhedron(mesh[0],mesh[1]);}
+function reverse(v)=[for (i=[len(v)-1:-1:0])v[i]];
