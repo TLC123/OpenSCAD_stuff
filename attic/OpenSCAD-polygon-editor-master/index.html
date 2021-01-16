@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>OpenSCAD polygon builder</title>
+<link rel="stylesheet" type="text/css" href="style.css">
+<script type="text/javascript" src="jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="raphael-min.js"></script>
+<script type="text/javascript" src="osped.js"></script>
+</head>
+<body>
+
+<table style="position: absolute; z-index:1; left: 10px; top 10px;" id="toolbox">
+<tr><th colspan="4" class="toolboxtitle">Toolbox
+<tr><td id="editToolSource"><td id="addToolSource"><td id="remToolSource"><td id="imgToolSource">
+<tr id="editToolOptions"><td id="editToolCorner"><td id="editToolSmooth"><td><td>
+<tr><td colspan="4" id="imageToolOptions" style="display: none;">
+	Url: <input type="text" id="traceImageURL" style="width: 100px"><br \>
+	<span id="traceImageFileSpan">File: <input id="traceImageFile" type="file" style="width: 100px" /><br \></span>
+	Scale: <input type="text" id="traceImageScale" style="width: 40px" value="100">%
+<tr><th colspan="4" class="toolboxtitle">Paths
+<tr><td colspan="4"><select size="10" id="pathListbox" style="width: 140px"><option>[New]</select>
+<tr><th colspan="4" class="toolboxtitle">OpenSCAD code
+<tr><td colspan="4"><textarea id="exportArea" style="width:130px; height: 200px;"></textarea>
+</table>
+
+<div id="wrapper">
+<img id="traceImage" style="position: absolute; left: 0px;">
+<div id="drawAreaSource"></div>
+<div id="cursorCoordinates" style="float: left"></div>
+<div id="urlDiv" style="position: absolute; right: 0px"><a href="https://github.com/daid/OpenSCAD-polygon-editor">source</a></div>
+</div>
+</body>
+</html>

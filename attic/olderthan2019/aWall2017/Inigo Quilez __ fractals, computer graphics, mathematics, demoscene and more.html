@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<!-- saved from url=(0066)http://iquilezles.org/www/articles/distfunctions/distfunctions.htm -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		
+		<title>Inigo Quilez :: fractals, computer graphics, mathematics, demoscene and more</title>
+		<meta name="Keywords" content="quilez, inigo, iñigo, fractals, demoscene, computer graphics, mathematics, rendering, demo, 3D, realtime, shader, raytracing">
+		<meta name="Description" content="Repository of productions, tutorials and articles of Inigo Quilez on computer graphics, fractals, demoscene and more.">
+		<meta name="Author" content="Inigo Quilez">
+		<link href="./Inigo Quilez __ fractals, computer graphics, mathematics, demoscene and more_files/style.css" rel="stylesheet" type="text/css">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style type="text/css">
+:root #content > #center > .dose > .dosesingle,
+:root #content > #right > .dose > .dosesingle
+{ display: none !important; }</style></head>
+
+	<body>
+		<script async="" src="http://www.google-analytics.com/analytics.js"></script><script>
+		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		  ga('create', 'UA-43686385-1', 'iquilezles.org');
+		  ga('send', 'pageview');
+
+		</script>
+        <div id="container">
+        <a class="headerTitle1" href="http://iquilezles.org/index.html">website</a>
+
+<a class="headerTitle2" href="http://iquilezles.org/www/index.htm">articles</a>
+<div class="headerTitle3">modeling with distance functions</div>
+
+<!-- --------------------------------------------------------------------------------- -->
+
+<div id="content">
+
+<!-- --------------------------------------------------------------------------------- -->
+
+
+<br>
+
+<!---------------------------------------------------------------------------->
+
+<h3><b>Intro</b></h3><hr>
+After having posted about the basics of distance functions in several places (pouet, my blog, shadertoy, private emails, etc), I thought it might make sense to put these together in centralized place. Here you will find the distance functions for basic primitives, plus the formulas for combining them together for building more complex shapes, as well as some distortion functions that you can use to shape your objects. Hopefully this will be usefull for those rendering scenes with raymarching. You can see some of the results you can get by using these techniques in the <a class="regular" href="http://iquilezles.org/www/articles/raymarchingdf/raymarchingdf.htm">raymarching distance fields</a> article. Lastly, this article doesn't include lighting tricks, nor marching acceleartion tricks or more advanced techniques as <a class="regular" href="http://iquilezles.org/www/articles/menger/menger.htm">recursive primitives</a> or <a class="regular" href="http://iquilezles.org/www/articles/mandelbulb/mandelbulb.htm">fractals</a>.<br>
+<br>
+<br>
+<h3>primitives</h3><hr>
+All primitives are centered at the origin. You will have to transform the point to get arbitrarily rotated, translated and scaled objects (see below).<br>
+<br>
+<br>
+<table>
+<!-- -------------------------------------------------------------------------------------------- -->
+<tbody><tr>
+<td valign="top"><h3><b>Sphere - signed - exact</b></h3>
+<pre><font class="codigo">float sdSphere( vec3 p, float s )
+{
+  return length(p)-s;
+}</font></pre></td>
+<td valign="top"><img src="./Inigo Quilez __ fractals, computer graphics, mathematics, demoscene and more_files/gfx00.png"></td>
+</tr>
+<!-- -------------------------------------------------------------------------------------------- -->
+<tr>
+<td valign="top"><h3><b>Box - unsigned - exact</b></h3>
+<pre><font class="codigo">float udBox( vec3 p, vec3 b )
+{
+  return length(max(abs(p)-b,0.0));
+}
+</font></pre></td>
+<td valign="top"><img src="./Inigo Quilez __ fractals, computer graphics, mathematics, demoscene and more_files/gfx01.png"></td>
+</tr>
+<tr height="8"></tr>
+<!-- -------------------------------------------------------------------------------------------- -->
+<tr>
+<td valign="top"><h3><b>Round Box - unsigned - exact</b></h3>
+<pre><font class="codigo">float udRoundBox( vec3 p, vec3 b, float r )
+{
+  return length(max(abs(p)-b,0.0))-r;
+}
+</font></pre></td>
+<td valign="top"><img src="./Inigo Quilez __ fractals, computer graphics, mathematics, demoscene and more_files/gfx02.png"></td>
+</tr>
+<!-- -------------------------------------------------------------------------------------------- -->
+<tr>
+<td valign="top"><h3><b>Box - signed - exact</b></h3>
+<pre><font class="codigo">float sdBox( vec3 p, vec3 b )
+{
+  vec3 d = abs(p) - b;
+  return min(max(d.x,max(d.y,d.z)),0.0) + length(max(d,0.0));
+}
+</font></pre></td>
+<td valign="top"><img src="./Inigo Quilez __ fractals, computer graphics, mathematics, demoscene and more_files/gfx01.png"></td>
+</tr>
+<tr height="8"></tr>
+<!-- -------------------------------------------------------------------------------------------- -->
+<tr>
+<td valign="top"><h3><b>Torus - signed - exact</b></h3>
+<pre><font class="codigo">float sdTorus( vec3 p, vec2 t )
+{
+  vec2 q = vec2(length(p.xz)-t.x,p.y);
+  return length(q)-t.y;
+}</font></pre></td>
+<td valign="top"><img src="./Inigo Quilez __ fractals, computer graphics, mathematics, demoscene and more_files/gfx03.png"></td>
+</tr>
+<!-- -------------------------------------------------------------------------------------------- -->
+<tr>
+<td valign="top"><h3><b>Cylinder - signed - exact</b></h3>
+<pre><font class="codigo">float sdCylinder( vec3 p, vec3 c )
+{
+  return length(p.xz-c.xy)-c.z;
+}</font></pre></td>
+<td valign="top"><img src="./Inigo Quilez __ fractals, computer graphics, mathematics, demoscene and more_files/gfx04.png"></td>
+</tr>
+<tr height="8"></tr>
+<!-- -------------------------------------------------------------------------------------------- -->
+<tr>
+<td valign="top"><h3><b>Cone - signed - exact</b></h3>
+<pre><font class="codigo">float sdCone( vec3 p, vec2 c )
+{
+    // c must be normalized
+    float q = length(p.xy);
+    return dot(c,vec2(q,p.z));
+}
+</font></pre></td>
+<td valign="top"><img src="./Inigo Quilez __ fractals, computer graphics, mathematics, demoscene and more_files/gfx09.png"></td>
+</tr>
+<!-- -------------------------------------------------------------------------------------------- -->
+<tr>
+<td valign="top"><h3><b>Plane - signed - exact</b></h3>
+<pre><font class="codigo">float sdPlane( vec3 p, vec4 n )
+{
+  // n must be normalized
+  return dot(p,n.xyz) + n.w;
+}
+</font></pre></td>
+<td valign="top"><img src="./Inigo Quilez __ fractals, computer graphics, mathematics, demoscene and more_files/gfx10.png"></td>
+</tr>
+<tr height="8"></tr>
+<!-- -------------------------------------------------------------------------------------------- -->
+<tr>
+<td valign="top"><h3><b>Hexagonal Prism - signed - exact</b></h3>
+<pre><font class="codigo">float sdHexPrism( vec3 p, vec2 h )
+{
+    vec3 q = abs(p);
+    return max(q.z-h.y,max((q.x*0.866025+q.y*0.5),q.y)-h.x);
+}
+</font></pre></td>
+<td valign="top"><img src="./Inigo Quilez __ fractals, computer graphics, mathematics, demoscene and more_files/gfx11.png"></td>
+</tr>
+<!-- -------------------------------------------------------------------------------------------- -->
+<tr>
+<td valign="top"><h3><b>Triangular Prism - signed - exact</b></h3>
+<pre><font class="codigo">float sdTriPrism( vec3 p, vec2 h )
+{
+    vec3 q = abs(p);
+    return max(q.z-h.y,max(q.x*0.866025+p.y*0.5,-p.y)-h.x*0.5);
+}
+</font></pre></td>
+<td valign="top"><img src="./Inigo Quilez __ fractals, computer graphics, mathematics, demoscene and more_files/gfx21.png"></td>
+</tr>
+<tr height="8"></tr>
+<!-- -------------------------------------------------------------------------------------------- -->
+<tr>
+<td valign="top"><h3><b>Capsule / Line - signed - exact</b></h3>
+<pre><font class="codigo">float sdCapsule( vec3 p, vec3 a, vec3 b, float r )
+{
+    vec3 pa = p - a, ba = b - a;
+    float h = clamp( dot(pa,ba)/dot(ba,ba), 0.0, 1.0 );
+    return length( pa - ba*h ) - r;
+}</font></pre></td>
+<td valign="top"><img src="./Inigo Quilez __ fractals, computer graphics, mathematics, demoscene and more_files/gfx22.png"></td>
+</tr>
+<!-- -------------------------------------------------------------------------------------------- -->
+<tr>
+<td valign="top"><h3><b>Capped cylinder - signed - exact</b></h3>
+<pre><font class="codigo">float sdCappedCylinder( vec3 p, vec2 h )
+{
+  vec2 d = abs(vec2(length(p.xz),p.y)) - h;
+  return min(max(d.x,d.y),0.0) + length(max(d,0.0));
+}
+</font></pre></td>
+<td valign="top"><img src="./Inigo Quilez __ fractals, computer graphics, mathematics, demoscene and more_files/gfx23.png"></td>
+</tr>
+<tr height="8"></tr>
+<!-- -------------------------------------------------------------------------------------------- -->
+<tr>
+<td valign="top"><h3><b>Capped Cone - signed - bound</b></h3>
+<pre><font class="codigo">float sdCappedCone( in vec3 p, in vec3 c )
+{
+    vec2 q = vec2( length(p.xz), p.y );
+    vec2 v = vec2( c.z*c.y/c.x, -c.z );
+    vec2 w = v - q;
+    vec2 vv = vec2( dot(v,v), v.x*v.x );
+    vec2 qv = vec2( dot(v,w), v.x*w.x );
+    vec2 d = max(qv,0.0)*qv/vv;
+    return sqrt( dot(w,w) - max(d.x,d.y) ) * sign(max(q.y*v.x-q.x*v.y,w.y));
+}
+</font></pre></td>
+<td valign="top"><img src="./Inigo Quilez __ fractals, computer graphics, mathematics, demoscene and more_files/gfx26.png"></td>
+</tr>
+<!-- -------------------------------------------------------------------------------------------- -->
+<tr>
+<td valign="top"><h3><b>Ellipsoid - signed - bound</b></h3>
+<pre><font class="codigo">float sdEllipsoid( in vec3 p, in vec3 r )
+{
+    return (length( p/r ) - 1.0) * min(min(r.x,r.y),r.z);
+}
+</font></pre></td>
+<td valign="top"><img src="./Inigo Quilez __ fractals, computer graphics, mathematics, demoscene and more_files/gfx25.png"></td>
+
+<!-- -------------------------------------------------------------------------------------------- -->
+</tr><tr>
+<td valign="top"><h3><b>Triangle - unsigned - exact</b></h3>
+<pre><font class="codigo">float dot2( in vec3 v ) { return dot(v,v); }
+float udTriangle( vec3 p, vec3 a, vec3 b, vec3 c )
+{
+    vec3 ba = b - a; vec3 pa = p - a;
+    vec3 cb = c - b; vec3 pb = p - b;
+    vec3 ac = a - c; vec3 pc = p - c;
+    vec3 nor = cross( ba, ac );
+
+    return sqrt(
+    (sign(dot(cross(ba,nor),pa)) +
+     sign(dot(cross(cb,nor),pb)) +
+     sign(dot(cross(ac,nor),pc))&lt;2.0)
+     ?
+     min( min(
+     dot2(ba*clamp(dot(ba,pa)/dot2(ba),0.0,1.0)-pa),
+     dot2(cb*clamp(dot(cb,pb)/dot2(cb),0.0,1.0)-pb) ),
+     dot2(ac*clamp(dot(ac,pc)/dot2(ac),0.0,1.0)-pc) )
+     :
+     dot(nor,pa)*dot(nor,pa)/dot2(nor) );
+}
+</font></pre></td>
+<td valign="top"><img src="./Inigo Quilez __ fractals, computer graphics, mathematics, demoscene and more_files/gfx24.png"></td>
+</tr>
+<!-- -------------------------------------------------------------------------------------------- -->
+<tr>
+<td valign="top"><h3><b>Quad - unsigned - exact</b></h3>
+<pre><font class="codigo">float dot2( in vec3 v ) { return dot(v,v); }
+float udQuad( vec3 p, vec3 a, vec3 b, vec3 c, vec3 d )
+{
+    vec3 ba = b - a; vec3 pa = p - a;
+    vec3 cb = c - b; vec3 pb = p - b;
+    vec3 dc = d - c; vec3 pc = p - c;
+    vec3 ad = a - d; vec3 pd = p - d;
+    vec3 nor = cross( ba, ad );
+
+    return sqrt(
+    (sign(dot(cross(ba,nor),pa)) +
+     sign(dot(cross(cb,nor),pb)) +
+     sign(dot(cross(dc,nor),pc)) +
+     sign(dot(cross(ad,nor),pd))&lt;3.0)
+     ?
+     min( min( min(
+     dot2(ba*clamp(dot(ba,pa)/dot2(ba),0.0,1.0)-pa),
+     dot2(cb*clamp(dot(cb,pb)/dot2(cb),0.0,1.0)-pb) ),
+     dot2(dc*clamp(dot(dc,pc)/dot2(dc),0.0,1.0)-pc) ),
+     dot2(ad*clamp(dot(ad,pd)/dot2(ad),0.0,1.0)-pd) )
+     :
+     dot(nor,pa)*dot(nor,pa)/dot2(nor) );
+}
+</font></pre></td>
+<td valign="top"></td>
+</tr>
+<tr height="8"></tr>
+<!-- -------------------------------------------------------------------------------------------- -->
+
+
+</tbody></table>
+
+<!-- -------------------------------------------------------------------------------------------- -->
+<br>
+<br>
+Most of these functions can be modified to use other norms than the euclidean. By replacing length(p), which computes (x^2+y^2+z^2)^(1/2) by (x^n+y^n+z^n)^(1/n) one can get
+variations of the basic primitives that have rounded edges rather than sharp ones.<br><br>
+<br>
+<table>
+<!-- -------------------------------------------------------------------------------------------- -->
+<tbody><tr>
+<td valign="top"><h3><b>Torus82 - signed</b></h3>
+<pre><font class="codigo">float sdTorus82( vec3 p, vec2 t )
+{
+  vec2 q = vec2(length2(p.xz)-t.x,p.y);
+  return length8(q)-t.y;
+}</font></pre></td>
+<td valign="top"><img src="./Inigo Quilez __ fractals, computer graphics, mathematics, demoscene and more_files/gfx19.png"></td>
+</tr>
+<!-- -------------------------------------------------------------------------------------------- -->
+<tr>
+<td valign="top"><h3><b>Torus88 - signed</b></h3>
+<pre><font class="codigo">float sdTorus88( vec3 p, vec2 t )
+{
+  vec2 q = vec2(length8(p.xz)-t.x,p.y);
+  return length8(q)-t.y;
+}</font></pre></td>
+<td valign="top"><img src="./Inigo Quilez __ fractals, computer graphics, mathematics, demoscene and more_files/gfx20.png"></td>
+</tr>
+
+</tbody></table>
+
+
+<br>
+<br>
+<br>
+<h3>distance operations</h3><hr>
+The d1 and d2 parameters in the following functions are the distance to the two distance fields to combine together.<br>
+<br>
+<br>
+<table>
+<tbody><tr>
+
+<td valign="top"><h3><b>Union</b></h3>
+<pre><font class="codigo">float opU( float d1, float d2 )
+{
+    return min(d1,d2);
+}
+</font></pre></td>
+<td width="8"></td>
+<td valign="top"><img src="./Inigo Quilez __ fractals, computer graphics, mathematics, demoscene and more_files/gfx05.png"></td>
+</tr>
+<!-- -------------------------------------------------------------------------------------------- -->
+<tr>
+<td valign="top"><h3><b>Substraction</b></h3>
+<pre><font class="codigo">float opS( float d1, float d2 )
+{
+    return max(-d1,d2);
+}
+</font></pre></td>
+<td width="8"></td>
+<td valign="top"><img src="./Inigo Quilez __ fractals, computer graphics, mathematics, demoscene and more_files/gfx06.png"></td>
+</tr>
+<!-- -------------------------------------------------------------------------------------------- -->
+<tr>
+<td valign="top"><h3><b>Intersection</b></h3>
+    <pre><font class="codigo">float opI( float d1, float d2 )
+{
+    return max(d1,d2);
+}
+</font></pre></td>
+<td width="8"></td>
+<td valign="top"><img src="./Inigo Quilez __ fractals, computer graphics, mathematics, demoscene and more_files/gfx07.png"></td>
+</tr>
+</tbody></table>
+
+
+<br>
+<br>
+<br>
+<h3>domain operations</h3><hr>
+Where "primitive", in the examples below, is any distance formula really (one of the basic primitives above, a combination, or a complex distance field).<br>
+<br>
+<br>
+<table>
+<tbody><tr>
+
+<td valign="top"><h3><b>Repetition</b></h3>
+<pre><font class="codigo">float opRep( vec3 p, vec3 c )
+{
+    vec3 q = mod(p,c)-0.5*c;
+    return primitve( q );
+}
+</font></pre></td>
+<td width="8"></td>
+<td valign="top"><img src="./Inigo Quilez __ fractals, computer graphics, mathematics, demoscene and more_files/gfx12.png"></td>
+</tr>
+<!-- -------------------------------------------------------------------------------------------- -->
+<tr>
+<td valign="top"><h3><b>Rotation/Translation</b></h3>
+<pre><font class="codigo">vec3 opTx( vec3 p, mat4 m )
+{
+    vec3 q = invert(m)*p;
+    return primitive(q);
+}
+</font></pre></td>
+<td width="8"></td>
+<td valign="top"><img src="./Inigo Quilez __ fractals, computer graphics, mathematics, demoscene and more_files/gfx13.png"></td>
+</tr>
+<!-- -------------------------------------------------------------------------------------------- -->
+<tr>
+<td valign="top"><h3><b>Scale</b></h3>
+<pre><font class="codigo">float opScale( vec3 p, float s )
+{
+    return primitive(p/s)*s;
+}
+</font></pre></td>
+<td width="8"></td>
+<td valign="top"><img src="./Inigo Quilez __ fractals, computer graphics, mathematics, demoscene and more_files/gfx14.png"></td>
+</tr>
+</tbody></table>
+
+<br>
+<br>
+<br>
+<h3>distance deformations</h3><hr>
+You must be carefull when using distance transformation functions, as the field created might not be a real distance function anymore. You will probably need to decrease your step size, if you are using a raymarcher to sample this. The displacement example below is using sin(20*p.x)*sin(20*p.y)*sin(20*p.z) as displacement pattern, but you can of course use anything you might imagine. As for smin() function in opBlend(), please read the <a class="regular" href="http://iquilezles.org/www/articles/smin/smin.htm">smooth minimum</a><a> article in this same site.
+<br>
+<br>
+<br>
+<table>
+<tbody><tr>
+
+<td valign="top"><h3><b>Displacement</b></h3>
+<pre><font class="codigo">float opDisplace( vec3 p )
+{
+    float d1 = primitive(p);
+    float d2 = displacement(p);
+    return d1+d2;
+}
+</font></pre></td>
+<td width="8"></td>
+<td valign="top"><img src="./Inigo Quilez __ fractals, computer graphics, mathematics, demoscene and more_files/gfx15.png"></td>
+</tr>
+<!-- -------------------------------------------------------------------------------------------- -->
+<tr>
+<td valign="top"><h3><b>Blend</b></h3>
+<pre><font class="codigo">float opBlend( vec3 p )
+{
+    float d1 = primitiveA(p);
+    float d2 = primitiveB(p);
+    return smin( d1, d2 );
+}
+</font></pre></td>
+<td width="8"></td>
+<td valign="top"><img src="./Inigo Quilez __ fractals, computer graphics, mathematics, demoscene and more_files/gfx18.png"></td>
+</tr>
+</tbody></table>
+
+
+
+<br>
+<br>
+<br>
+<h3>domain deformations</h3><hr>
+Domain deformation functions do not preserve distances neither. You must decrease your marching step to properly sample these functions (proportionally to the maximun derivative of the domain distortion function). Of course, any distortion function can be used, from twists, bends, to random noise driven deformations.<br>
+<br>
+<br>
+<table>
+<tbody><tr>
+
+<td valign="top"><h3><b>Twist</b></h3>
+<pre><font class="codigo">float opTwist( vec3 p )
+{
+    float c = cos(20.0*p.y);
+    float s = sin(20.0*p.y);
+    mat2  m = mat2(c,-s,s,c);
+    vec3  q = vec3(m*p.xz,p.y);
+    return primitive(q);
+}
+</font></pre></td>
+<td width="8"></td>
+<td valign="top"><img src="./Inigo Quilez __ fractals, computer graphics, mathematics, demoscene and more_files/gfx16.png"></td>
+</tr>
+<!-- -------------------------------------------------------------------------------------------- -->
+<tr>
+<td valign="top"><h3><b>Cheap Bend</b></h3>
+<pre><font class="codigo">float opCheapBend( vec3 p )
+{
+    float c = cos(20.0*p.y);
+    float s = sin(20.0*p.y);
+    mat2  m = mat2(c,-s,s,c);
+    vec3  q = vec3(m*p.xy,p.z);
+    return primitive(q);
+}
+</font></pre></td>
+<td width="8"></td>
+<td valign="top"><img src="./Inigo Quilez __ fractals, computer graphics, mathematics, demoscene and more_files/gfx17.png"></td>
+</tr>
+</tbody></table>
+<br>
+<br>
+A reference implementation of most of these primitives and operators can be found here (click in the image to rotate the camera, or in the title to jump to the source code):<br><br>
+<center><iframe width="640" height="360" frameborder="0" src="./Inigo Quilez __ fractals, computer graphics, mathematics, demoscene and more_files/Xds3zN.html" allowfullscreen=""></iframe></center>
+
+<br>
+<br>
+<br>
+
+</a></div><a>
+
+
+	</a><div id="footer"><a></a><a class="regular" href="http://www.iquilezles.org/">inigo quilez</a> 1994-2016</div>
+    </div>
+
+    
+</body><script>function inject(){function a(){function a(a){parent.postMessage({type:"blockedWindow",args:JSON.stringify(a)},l)}function b(a){var b=a[1];return null!=b&&["_blank","_parent","_self","_top"].indexOf(b)<0?b:null}function e(a,b){var c;for(c in a)try{void 0===b[c]&&(b[c]=a[c])}catch(d){}return b}var g=arguments,h=!0,j=null,k=null;if(null!=window.event&&(k=window.event.currentTarget),null==k){for(var m=g.callee;null!=m.arguments&&null!=m.arguments.callee.caller;)m=m.arguments.callee.caller;null!=m.arguments&&m.arguments.length>0&&null!=m.arguments[0].currentTarget&&(k=m.arguments[0].currentTarget)}null!=k&&(k instanceof Window||k===document||null!=k.URL&&null!=k.body||null!=k.nodeName&&("body"==k.nodeName.toLowerCase()||"#document"==k.nodeName.toLowerCase()))?(window.pbreason="Blocked a new window opened with URL: "+g[0]+" because it was triggered by the "+k.nodeName+" element",h=!1):h=!0;document.webkitFullscreenElement||document.mozFullscreenElement||document.fullscreenElement;if(((new Date).getTime()-d<1e3||isNaN(d)&&c())&&(window.pbreason="Blocked a new window opened with URL: "+g[0]+" because a full screen was just initiated while opening this url.",document.exitFullscreen?document.exitFullscreen():document.mozCancelFullScreen?document.mozCancelFullScreen():document.webkitCancelFullScreen&&document.webkitCancelFullScreen(),h=!1),1==h){j=f.apply(this,g);var n=b(g);if(null!=n&&(i[n]=j),j!==window){var o=(new Date).getTime(),p=j.blur;j.blur=function(){(new Date).getTime()-o<1e3?(window.pbreason="Blocked a new window opened with URL: "+g[0]+" because a it was blured",j.close(),a(g)):p()}}}else{var q={href:g[0]};q.replace=function(a){q.href=a},j={close:function(){return!0},test:function(){return!0},blur:function(){return!0},focus:function(){return!0},showModelessDialog:function(){return!0},showModalDialog:function(){return!0},prompt:function(){return!0},confirm:function(){return!0},alert:function(){return!0},moveTo:function(){return!0},moveBy:function(){return!0},resizeTo:function(){return!0},resizeBy:function(){return!0},scrollBy:function(){return!0},scrollTo:function(){return!0},getSelection:function(){return!0},onunload:function(){return!0},print:function(){return!0},open:function(){return this},opener:window,closed:!1,innerHeight:480,innerWidth:640,name:g[1],location:q,document:{location:q}},e(window,j),j.window=j;var n=b(g);if(null!=n)try{i[n].close()}catch(r){}setTimeout(function(){var b;b=j.location instanceof Object?j.document.location instanceof Object?null!=q.href?q.href:g[0]:j.document.location:j.location,g[0]=b,a(g)},100)}return j}function b(a){d=a?(new Date).getTime():0/0}function c(){return document.fullScreenElement&&null!==document.fullScreenElement||null!=document.mozFullscreenElement||null!=document.webkitFullscreenElement}var d,e="originalOpenFunction",f=window.open,g=document.createElement,h=document.createEvent,i={},j=0,k=null,l=window.location!=window.parent.location?document.referrer:document.location;window[e]=window.open,window.open=function(){try{return a.apply(this,arguments)}catch(b){return null}},document.createElement=function(){var a=g.apply(document,arguments);if("a"==arguments[0]||"A"==arguments[0]){j=(new Date).getTime();var b=a.dispatchEvent;a.dispatchEvent=function(c){return null!=c.type&&"click"==(""+c.type).toLocaleLowerCase()?(window.pbreason="blocked due to an explicit dispatchEvent event with type 'click' on an 'a' tag",parent.postMessage({type:"blockedWindow",args:JSON.stringify({0:a.href})},l),!0):b(c)},k=a}return a},document.createEvent=function(){try{return arguments[0].toLowerCase().indexOf("mouse")>=0&&(new Date).getTime()-j<=50?(window.pbreason="Blocked because 'a' element was recently created and "+arguments[0]+" event was created shortly after",arguments[0]=k.href,parent.postMessage({type:"blockedWindow",args:JSON.stringify({0:k.href})},l),null):h.apply(document,arguments)}catch(a){}},document.addEventListener("fullscreenchange",function(){b(document.fullscreen)},!1),document.addEventListener("mozfullscreenchange",function(){b(document.mozFullScreen)},!1),document.addEventListener("webkitfullscreenchange",function(){b(document.webkitIsFullScreen)},!1)} inject()</script></html>

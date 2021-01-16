@@ -1,0 +1,219 @@
+body
+{
+    background-color: #000000;
+    color: #c0c0c0;
+    font-size:12px;
+    font-style:normal;
+    font-family:Tahoma,Arial;
+    top:0px;
+    left:0px;
+    width:100%;
+    height:100%;
+    padding:0;
+    margin:0;
+    overflow:hidden;
+    position:absolute;
+    user-select: none;
+    -moz-user-select: -moz-none;
+    -webkit-user-select: none;
+}
+
+
+div#player
+{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    padding:0;
+    margin:0;
+}
+
+div#playerInteraction
+{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    padding:0;
+    margin:0;
+}
+
+.playerCanvas
+{
+    left: 0px;
+    top: 0px;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+div#noWebGL
+{
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    position: absolute;
+    border: 0px;
+    border-radius: 4px 4px 0px 0px;
+    background-color:#000000;
+    visibility: hidden;
+}
+
+img#noWebGL_ShaderImage
+{
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    border: 0px;
+    border-radius: 4px 4px 0px 0px;
+}
+
+span#noWebGL_Text
+{
+    left:8px;
+    font-size: 1.5em;
+    border: 0px;
+    color:#ff0000;
+    position: absolute;
+}
+
+
+div#playerBar
+{
+    left: 0px;
+    bottom: 0px;
+    position: absolute;
+    width: 100%;
+    height: 30px;
+    background-color:rgba(0,0,0,0.8);
+    margin: 0px;
+    padding: 0px;
+
+    transition: bottom 1s;
+    -webkit-transition: bottom 1s; /* Safari */
+}
+
+div#playerBar.isVisible
+{
+    bottom:0px;
+}
+
+div#playerBar.isNotVisible
+{
+    bottom:-31px;
+}
+
+.myFull
+{
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+.playerCanvas_full-screen,
+.playerCanvas:full-screen,
+.playerCanvas:fullscreen,
+.playerCanvas:-webkit-full-screen,
+.playerCanvas:-moz-full-screen
+{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+
+div#shaderInfo
+{
+    background-color:rgba(0,0,0,0.8);
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 30px;
+    position: absolute;
+    margin: 0px;
+    padding: 0px;
+
+    transition: top 1s;
+    -webkit-transition: top 1s; /* Safari */
+}
+
+div#shaderInfo.isVisible
+{
+    top:0px;
+}
+div#shaderInfo.isNotVisible
+{
+    top:-31px;
+}
+
+a.shaderTitle
+{
+    font-size:18px;
+    font-style:normal;
+    font-weight:bold;
+    text-align: left;
+    color: #c0c0c0;
+    text-decoration: none;
+    margin-left:6px;
+    margin-right:6px;
+}
+
+a.shaderTitle:hover
+{
+  color : #ff8020;
+}
+
+
+div#shaderStats
+{
+    top: 8px;
+    right: 4px;
+    position: absolute;
+    padding-left:0;
+    padding-right:0;
+    margin-left:0;
+    margin-right:0;
+}
+
+div#shaderLike
+{
+    left: 0px;
+    top: 150px;
+    position: absolute;
+}
+
+a.shadertoyLink
+{
+    color:#c0c0c0;
+    font-size:16px;
+    font-style:normal;
+    font-weight:normal;
+    font-family:Lobster,Tahoma,Arial;
+    text-align: left;
+    top: 5px;
+    right: 6px;
+    position: absolute;
+    padding-left:0;
+    padding-right:0;
+    margin-left:0;
+    margin-right:0;
+    text-decoration:none;
+
+    user-select: text;
+    -moz-user-select: -moz-text;
+    -webkit-user-select: text;
+}
+a.shadertoyLink:hover
+{
+  color : #ff8020;
+}
