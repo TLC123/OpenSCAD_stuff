@@ -1,14 +1,9 @@
 include <BOSL2/std.scad>
-//include <BOSL2/polyhedra.scad>
-//include <BOSL2/vnf.scad>
-//include <BOSL2/triangulation.scad>
-//include <BOSL2/skin.scad>
+ 
 
 lshape=[[-5,-5],[5,-5],[5,0],[0,0],[0,5],[-5,5]];
 path_transforms=[affine3d_translate([0,0,0]),affine3d_translate([0,-2,4.5]),affine3d_translate([0,2,9])];
-// s = triangulate_vnf(move([0, 0, -4], sweep(lshape, path_transforms)));
-//// s = triangulate_vnf(move([0, 0,0  ], cylinder(5,3,3)));
-// s =  triangulate_vnf(move([0, 0,0  ], cube([8,8,8],center=true)));
+ 
  s =   (  quadcube([8,8,8],center=true));
 
  // polyhedronMesh(s);
