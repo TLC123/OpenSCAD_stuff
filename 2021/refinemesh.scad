@@ -1,14 +1,19 @@
+// Naive adaptive subdivision scheme for general mesh deformations.
+// How it works is define a deformation function in a function litteral.
+// Define target edge-lenght and a inittial larger multiple edge-length
+// Then in recursion apply deformation to a copy of the mesh.
+// For each DEFORMED triangle take note of what edegs are above larger treshold length.
+// !! Split the ORIGINAL undeformed triangle !! by corresponding affected edges. Discard deformed copy. 
+// Clean up results to a neat point,face form.
+// Divide the treshold by two and repeat recurively until the larger threshold is less than target treshold.
+// Apply a final deformation  of the subdivided original to obtain a defromed mesh with adaptve subdivision where it counts. 
+
 include <BOSL2/std.scad>
-//include <BOSL2/polyhedra.scad>
-//include <BOSL2/vnf.scad>
-//include <BOSL2/triangulation.scad>
-//include <BOSL2/skin.scad>
+ 
 
 lshape=[[-5,-5],[5,-5],[5,0],[0,0],[0,5],[-5,5]];
 path_transforms=[affine3d_translate([0,0,0]),affine3d_translate([0,-2,4.5]),affine3d_translate([0,2,9])];
-// s = triangulate_vnf(move([0, 0, -4], sweep(lshape, path_transforms)));
-//// s = triangulate_vnf(move([0, 0,0  ], cylinder(5,3,3)));
-// s =  triangulate_vnf(move([0, 0,0  ], cube([8,8,8],center=true)));
+ 
  s =   (  quadcube([8,8,8],center=true));
 
  // polyhedronMesh(s);
