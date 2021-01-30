@@ -11,6 +11,14 @@ translate([0,0,10])union() {
     }
 }
 
+#
+color("red")  translate(o){
+  sphere(1);
+ hull(){
+  sphere(.5);
+translate( n*20) sphere(.5);
+}
+look_at(n)square(20,true);}
 
 module crop(maxh = 100) {
     intersection() {
@@ -25,7 +33,7 @@ module crop(maxh = 100) {
     }
 }
  module planeCrop(maxh = 100,normal,origin) {
-     if(normal==[0,0,1])
+     if(normal==[0,0,1]) // flat z normal special case
          {mirror([0,0,1]) 
            translate(-origin)
               crop(maxh)    
@@ -37,7 +45,7 @@ module crop(maxh = 100) {
      else {
      
   translate(origin)
-     look_at( [0,0,1],[0,0,0],-normal )
+  look_at(-normal )
          crop(maxh)    
              look_at(-normal)
                translate(-origin)
