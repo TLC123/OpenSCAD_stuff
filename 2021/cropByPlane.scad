@@ -1,5 +1,5 @@
 seed=rands(0,100,100 ) ;
-n=[0.01,0,1];//rands(-1,1,3,seed[0]);
+n= rands(-1,1,3,seed[0]);
 o=rands(-10,10,3,seed[1]);
 echo(n,o);
 planeCrop(  60,n,o ) 
@@ -25,13 +25,13 @@ module crop(maxh = 100) {
     }
 }
  module planeCrop(maxh = 100,normal,origin) {
-     if(normal=[0,0,1])
-         {
-           translate(origin)
+     if(normal==[0,0,1])
+         {mirror([0,0,1]) 
+           translate(-origin)
               crop(maxh)    
-                 translate(-origin)
+                 translate(origin)
                     color() {
-                        children();
+                      mirror([0,0,1])  children();
                     }
              }
      else {
