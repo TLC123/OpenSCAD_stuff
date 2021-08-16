@@ -1,15 +1,22 @@
-unionRoundSimple.scad
+[unionRoundMask.scad](2021/unionRound/unionRoundMask.scad)
 
-[issue 844](https://github.com/openscad/openscad/issues/884#issuecomment-898877935)
+![unionRound](https://github.com/TLC123/OpenSCAD_stuff/blob/16fd2e915b4b920f4786c256a8ced0462d6f85c5/2021/unionRound/reddit.PNG)
+
+[addressing issue 844](https://github.com/openscad/openscad/issues/884#issuecomment-898877935)
 
 unionRound Module by Torleif Ceder - TLC123 late summer 2021
  Pretty fast Union with radius, But limited to subset of cases
  
  Usage 
- unionRound( radius , detail , epsilon= 0.00001)
+ unionRoundMask( radius , detail , epsilon= 0.00001)
   { 
    YourObject1();  
    YourObject2(); 
+      YourMask1(); 
+      YourMask2(); 
+      // ...
+      // ...
+      // ...
   } 
 
 limitations:
@@ -30,7 +37,7 @@ limitations:
 
 
 
-![unionRound](https://github.com/TLC123/OpenSCAD_stuff/blob/16fd2e915b4b920f4786c256a8ced0462d6f85c5/2021/unionRound/reddit.PNG)
+
 
 functional_extrude.scad
 ![functional_extrude](https://user-images.githubusercontent.com/10944617/128231672-ca067748-d0bb-450f-8080-ffd1a68b3b8c.png)
