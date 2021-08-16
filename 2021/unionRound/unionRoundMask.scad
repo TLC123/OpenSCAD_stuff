@@ -13,7 +13,7 @@
          YourObject1();
          YourObject2(); 
          YourMask();
-         YourMask();
+         YourMask();  // multimask not implemented
          
          // ...
          // ...
@@ -40,7 +40,7 @@
     
     // end of demo code
     //
-
+    // todo multi-mask iteraation
       module unionRoundMask(r, detail = 5,  epsilon = 1e-6,showMask=true) {
             children(0);
             children(1);
