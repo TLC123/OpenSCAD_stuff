@@ -4,36 +4,37 @@
 
 [addressing issue 844](https://github.com/openscad/openscad/issues/884#issuecomment-898877935)
 
-unionRound 1.0 Module by Torleif Ceder - TLC123 late summer 2021
- Pretty fast Union with radius, But limited to subset of cases
- 
- Usage:
- 
- unionRoundMask( radius , detail , epsilon= 0.00001)
- 
- { 
- 
-   YourObject1();  
-   
-   YourObject2(); 
-   
-      YourMask1(); 
-      
-      YourMask2(); 
-      
-      // ...
-      
-      // ...
-      
-      // ...
- 
- } 
-
-limitations:
-
- 0. Only really fast when boolean operands are convex, Minkowski is fast in that case. 
- 1. Boolean operands may be concave but can only touch in a single convex area
- 2. Radius is of eliptic type and is only aproximate r were operand intersect at perpendicular angle. 
+    ////////////////////////////////////////////////////////
+    /*
+    unionRound() 1.0 Module by Torleif Ceder - TLC123 late summer 2021
+     Pretty fast Union with radius, But limited to a subset of cases
+    Usage 
+     unionRound( radius , detail  )
+        {
+         YourObject1();
+         YourObject2(); 
+        } 
+      unionRoundMask (r, detail , epsilon ,showMask )
+        {
+         YourObject1();
+         YourObject2(); 
+         YourMask();
+         YourMask();
+         
+         // ...
+         // ...
+         // ...
+         
+        } 
+    limitations: 
+     0. Only really fast when boolean operands are convex, 
+            Minkowski is fast in that case. 
+     1. Boolean operands may be concave but can only touch 
+            in a single convex area
+     2. Radius is of elliptic type and is only approximate r
+            were operand intersect at perpendicular angle. 
+    */
+    //////////////////////////////////////////////////////// 
  
 [on Youtube](www.youtube.com/watch?v=gVk-Keg_nGQ)
 
