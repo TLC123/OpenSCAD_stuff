@@ -1,0 +1,261 @@
+::-webkit-scrollbar
+{
+	height: 8px;
+	width: 8px;
+	background: #202020;
+}
+
+::-webkit-scrollbar-thumb
+{
+    background: #505050;
+    -webkit-border-radius: 4px;
+}
+
+
+body
+{
+    background-color: #000000;
+    color: #ffffff;
+    font-style:normal;
+    font-size:16px;
+    font-family:Tahoma,Arial;
+    font-weight:normal;
+    text-align: left;
+    text-justify:inter-word;
+
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    top:0px;
+    left:0px;
+    width:100%;
+    height:100%;
+    padding: 0px;
+	margin: 0px;
+    padding-left:0;
+    padding-right:0;
+    margin-left:0;
+    margin-right:0;
+    background-image: linear-gradient(bottom,         #202020 0%, #000000 50%, #000000 100%);
+    background-image: -o-linear-gradient(bottom,      #202020 0%, #000000 50%, #000000 100%);
+    background-image: -moz-linear-gradient(bottom,    #202020 0%, #000000 50%, #000000 100%);
+    background-image: -webkit-linear-gradient(bottom, #202020 0%, #000000 50%, #000000 100%);
+    background-image: -ms-linear-gradient(bottom,     #202020 0%, #000000 50%, #000000 100%);
+    background-image: -webkit-gradient(
+  	    linear,
+      	left bottom,
+      	left top,
+      	color-stop(1.0, #000000),
+  	    color-stop(0.5, #000000),
+      	color-stop(0.0, #202020) );
+		
+    overflow:hidden;
+    position:absolute;
+}
+
+div#container
+{
+    width: 100%;
+    max-width:1408px;
+    top:0px;
+    padding:0;
+    margin-left:auto;
+    margin-right:auto;
+    position: relative;
+    height:100%;
+    overflow:auto;
+}
+
+div#content
+{
+    background-color:#000000;
+    line-height:150%;
+    position:relative;
+    top:0px;
+    left:0px;
+    padding-top:4%;
+    padding-bottom:0%;
+    padding-left:2%;
+    padding-right:2%;
+}
+
+div#footer
+{
+	background-color:#404040;
+    color:#ffffff;
+    font-size:1em;
+	padding:4px;
+    text-align: right;
+    position: relative;
+	clear:both;
+}
+
+a.headerTitle1
+{
+    background-color:#404040;
+    color:#ffffff;
+    font-size:1.5em;
+    text-align: center;
+    width: 100%;
+	padding:0px;
+	margin:0px;
+	display: block;
+	margin: auto auto;
+    position: relative;
+    text-decoration: none;
+}
+a.headerTitle1:hover
+{
+    background-color:#808080;
+}
+
+a.headerTitle2
+{
+    background-color:#606060;
+    color:#ffffff;
+    font-size:1.5em;
+    text-align: center;
+    vertical-align: middle;
+	display: block;
+    width: 100%;
+    position: relative;
+    text-decoration: none;
+}
+
+a.headerTitle2:hover
+{
+    background-color:#808080;
+}
+
+.headerTitle3
+{
+    background-color:#808080;
+    color:#ffffff;
+    font-size:1.5em;
+    text-align: center;
+    vertical-align: middle;
+	display: block;
+    width: 100%;
+    position: relative;
+    text-decoration: none;
+}
+
+.headerTitle4
+{
+    background-color:#a0a0a0;
+    color:#ffffff;
+    font-size:1.5em;
+    text-align: center;
+    vertical-align: middle;
+	display: block;
+    width: 100%;
+    position: relative;
+    text-decoration: none;
+}
+
+.columns
+{
+    font-size:1em;
+    font-style:normal;
+    font-weight:normal;
+    text-align: left;
+    text-justify:inter-word;
+}
+
+
+.imgFooter
+{
+    font-size:1em;
+    font-style:italic;
+    font-weight:normal;
+    text-align: left;
+}
+
+.codigo {
+	font-family: Courier, sans-serif;
+	font-size: 1em;
+	color: #40c040;
+    text-align:center;
+    vertical-align:text-top;
+}
+
+.codigoComment {
+	font-family: Courier, sans-serif;
+	font-size: 1em;
+	color: #d0d050;
+}
+
+
+.codigoInText {
+	color: #40c040;
+}
+
+a.regular:link
+{
+    color: #f08040;
+    text-decoration: none;
+}
+a.regular:visited
+{
+    color: #fff080
+}
+a.regular:hover
+{
+  color : #fff080;
+}
+
+a.menu
+{
+    font-size: 1.5em;
+    font-style:italic;
+    font-weight:bold;
+    color: #f0e0b0;
+    text-decoration: none
+}
+
+a.menu:hover
+{
+  color : #ffffff;
+}
+
+.myTwoColumns
+{
+  width: 100%;
+  padding: 0px;
+  -moz-column-width: 640px;
+  -moz-column-count: 2;
+  -moz-column-gap: 58px;
+  -webkit-column-width: 640px;
+  -webkit-column-count: 2;
+  -webkit-column-gap: 58px;
+  column-width: 640px;
+  column-count: 2;
+  column-gap: 58px;
+}
+
+.myNoSplit
+{
+    -moz-column-break-inside: avoid;
+    -webkit-column-break-inside: avoid;
+    column-break-inside: avoid;
+}
+
+.myFigure
+{
+  margin: 0px;
+}
+
+.table
+{
+    display:table;	
+}
+
+.tableRow
+{
+    display:table-row;	
+}
+
+.tableCell
+{
+    display:table-cell;	
+	padding:12px;
+}

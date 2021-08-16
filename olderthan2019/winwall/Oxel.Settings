@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VoxelizationInput xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <m_voxelLevel>8</m_voxelLevel>
+  <m_minVolume>0.65</m_minVolume>
+  <m_minOcclusion>0.03</m_minOcclusion>
+  <m_type>BoxExpansion</m_type>
+  <m_retriangulate>false</m_retriangulate>
+  <m_removeTop>false</m_removeTop>
+  <m_removeBottom>false</m_removeBottom>
+  <m_upAxis>Y</m_upAxis>
+  <m_windingOrder>CounterClockwise</m_windingOrder>
+  <OctreeLevels>8</OctreeLevels>
+  <Type>BoxExpansion</Type>
+  <UpAxis>Y</UpAxis>
+  <WindingOrder>CounterClockwise</WindingOrder>
+  <MinimumOcclusion>0.03</MinimumOcclusion>
+  <Retriangulate>false</Retriangulate>
+  <RemoveTop>false</RemoveTop>
+  <RemoveBottom>false</RemoveBottom>
+  <MinimumVolume>0.65</MinimumVolume>
+</VoxelizationInput>

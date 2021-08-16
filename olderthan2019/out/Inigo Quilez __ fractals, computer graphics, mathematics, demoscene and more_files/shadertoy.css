@@ -1,0 +1,990 @@
+::-webkit-scrollbar
+{
+    height: 8px;
+	width: 8px;
+	background: #404040;
+}
+
+::-webkit-scrollbar-thumb
+{
+    background: #909090;
+    border-radius: 0ex;
+}
+
+::-webkit-scrollbar-corner
+{
+    background: #000;
+}
+
+::-webkit-input-placeholder
+{
+	font-style:italic;
+}
+input:-moz-placeholder, textarea:-moz-placeholder
+{
+	font-style:italic;
+}
+input.placeholder-text, textarea.placeholder-text
+{
+	font-style:italic;
+}
+
+@font-face
+{
+    font-family: Lobster;
+    src: url("/img/lobster.otf") format("opentype");
+}
+
+div#centerScreen
+{
+    left: 50%;
+    top: 50%;
+    position: absolute;
+}
+
+a.headerLinks:hover
+{
+  background-color:#505050;
+  color : #ff8020;
+}
+
+div#headerCuadradito
+{
+    background-color:#000000;
+    padding:0;
+    padding:0;
+    width:  8px;
+    height: 8px;
+    top:2px;
+    right:2px;
+    position: absolute;
+}
+
+body
+{
+    color: #000000;
+    font-size:12px;
+    font-style:normal;
+    font-family:Tahoma,Arial;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    top:0px;
+    left:0px;
+    width:100%;
+    height:100%;
+    padding:0;
+    margin:0;
+    overflow:hidden;
+    position:absolute;
+    text-align: left;
+
+    background-color: #d0d0d0;
+    background-image: url("/img/background.jpg");
+    background-repeat: repeat;
+
+    user-select: none;
+    -moz-user-select: -moz-none;
+    -webkit-user-select: none;
+}
+
+div#content
+{
+    width: 1800px;
+    height: 87%;//calc(100%-96px);
+    overflow: auto;
+    padding:0px;
+    margin-left:auto;
+    margin-right:auto;
+    margin-top:0px;
+    margin-bottom:0px;
+    top:64px;
+    position: relative;
+}
+
+div#contentScroll
+{
+    width: 1780px;
+    padding:0px;
+    padding-right:20px;
+    margin-left:auto;
+    margin-right:auto;
+    margin-top:0px;
+    margin-bottom:0px;
+    top:44px;
+    position: relative;
+    height:90%;
+    overflow:auto;
+}
+
+div#header
+{
+    background-color:#404040;
+    background-image: url("/img/topbackground.png");
+    background-repeat: repeat;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 44px;
+    padding-left:0;
+    padding-right:0;
+    margin-left:0;
+    margin-right:0;
+    position:absolute;
+    overflow:hidden;
+}
+
+div#headerContent
+{
+    color:#ffffff;
+    width: 1800px;
+
+    padding-left:0;
+    padding-right:0;
+    margin-left:auto;
+    margin-right:auto;
+
+    top:2px;
+    margin-top:0px;
+    margin-bottom:0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    position: relative;
+}
+
+a#headerTitle
+{
+    color:#ffffff;
+    font-size:28px;
+    font-family:Lobster,Tahoma,Arial;
+    text-align: left;
+    top: 0px;
+    left: 0px;
+    position: absolute;
+    padding-left:0;
+    padding-right:0;
+    margin-left:0;
+    margin-right:0;
+    text-decoration:none;
+
+    user-select: text;
+    -moz-user-select: -moz-text;
+    -webkit-user-select: text;
+}
+
+a#headerTitle:hover
+{
+    color : #ff8020;
+}
+
+a.headerLinks
+{
+    font-weight:bold;
+    color:#ffffff;
+    position: relative;
+    margin: 0px;
+    top: 0px;
+    padding-top:14px;
+    padding-bottom:14px;
+    padding-left: 8px;
+    padding-right: 8px;
+    text-decoration: none;
+    display: inline-block;
+
+    -moz-transition:    background-color 0.15s linear, color 0.15s linear;
+    -webkit-transition: background-color 0.15s linear, color 0.15s linear;
+    transition:         background-color 0.15s linear, color 0.15s linear;
+}
+
+a#headerBrowser
+{
+    left: 860px;
+    position: absolute;
+}
+
+a#headerCreateNew
+{
+    left: 940px;
+    position: absolute;
+}
+
+div#headerLogin
+{
+    top: 0px;
+    right: 0px;
+    position:absolute;
+    text-align:right;
+}
+
+div#headerSearch
+{
+    color:#000000;
+    top: 7px;
+    left: 300px;
+    height: 32px;
+    width: 300px;
+    position: absolute;
+    padding:0;
+    margin:0;
+    user-select: text;
+    -moz-user-select: -moz-text;
+    -webkit-user-select: text;
+}
+
+input#mySearch
+{
+    width:300px;
+    top:0px;
+    left:21px;
+    height:22px;
+    border-radius:6px;
+    border:1px solid black;
+    margin:0px;
+    position:absolute;
+    padding-bottom:0px;
+    padding-top:0px;
+    padding-left:8px;
+    padding-right:8px;
+    outline:none
+}
+
+div#footer
+{
+    background-color:rgba(64,64,64,0.25);
+    color: #000000;
+    padding: 0px;
+    margin: 0px;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    height: 22px;
+    position: absolute;
+
+    user-select: text;
+    -moz-user-select: -moz-text;
+    -webkit-user-select: text;
+}
+
+div#footerContent
+{
+    text-align: left;
+    width: 1800px;
+    height: 100%;
+    padding:0px;
+    margin:0;
+    margin-left:auto;
+    margin-right:auto;
+    position: relative;
+}
+
+a.option
+{
+    bottom:3px; position:relative;
+    padding: 0px;
+    margin: 0px;
+    margin-left: 10px;
+    margin-right: 10px;
+    color: #000000;
+    text-decoration: none
+}
+
+a.option:hover
+{
+  color : #ff8020;
+}
+
+a.regular
+{
+    color: #000000;
+    font-weight :bold;
+    text-decoration: none
+}
+
+a.regular:hover
+{
+  color : #ff8020;
+}
+
+a.shader
+{
+    color: #000000;
+    font-weight :bold;
+    text-decoration: none
+}
+
+a.shader:hover
+{
+  color : #ff8020;
+}
+
+a.user
+{
+    font-weight:bold;
+    color: #000000;
+    text-decoration: none;
+}
+
+a.user:hover
+{
+  font-weight:bold;
+  color : #ff8020;
+  text-decoration: underline;
+}
+
+.uiButton
+{
+    border: "0px solid #000000";
+    outline: "0px solid #000000";
+    margin: 0px;
+    padding: 0px;
+    width: 22px;
+    height: 22px;
+    position: absolute;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.uiButton:hover
+{
+    box-shadow: inset 0px 0px 1px 1px #808080, 0px 0px 1px 1px #808080;
+}
+
+.uiButtonNew
+{
+    margin: 0px;
+    margin-right:1px;
+    margin-left:1px;
+    padding: 0px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.uiButtonNew:hover
+{
+    box-shadow: inset 0px 0px 1px 1px #808080, 0px 0px 1px 1px #808080;
+}
+
+.uiSmallButton
+{
+    border: "0px solid #000000";
+    outline: "0px solid #000000";
+    margin: 0px;
+    padding: 0px;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.uiSmallButton:hover
+{
+    box-shadow: inset 0px 0px 1px 1px #808080, 0px 0px 1px 1px #808080;
+}
+
+.dialog
+{
+    background-color: #e0e0e0;
+    border:1px solid #000;
+    padding:0px;
+    margin:0px;
+    text-align:left;
+    border-radius: 4px;
+    box-shadow:4px 4px 6px 0px rgba(0,0,0,0.5);
+    overflow: hidden;
+
+    user-select: text;
+    -moz-user-select: -moz-text;
+    -webkit-user-select: text;
+
+    visibility: hidden;
+    z-index:1000;
+
+    opacity:0;
+    -moz-transition: opacity 0.25s linear,visibility 0.25s linear;
+    -webkit-transition: opacity 0.25s linear,visibility 0.25s linear;
+    transition: opacity 0.25s linear,visibility 0.25s linear;
+}
+
+.dialogHeader
+{
+    left:0px;
+    top: 0px;
+    width:100%;
+    height:32px;
+    position: absolute;
+    background-color: #808080;
+    cursor:move;
+}
+
+.dialogTitle
+{
+    left: 12px;
+    top: 4px;
+    position: absolute;
+    padding: 0px;
+    margin: 0px;
+    color:#000000;
+    font-size:1.5em;
+    text-align: left;
+    user-select: none;
+    -moz-user-select: -moz-none;
+    -webkit-user-select: none;
+}
+
+.likesIcon
+{
+    border: "0px solid #000000";
+    outline: "0px solid #000000";
+    display:inline-block;
+    background-repeat:no-repeat;
+    width:10px;
+    height:10px;
+    background-image:url('/img/likes.png');
+    top:0px;
+    left:0px;
+    padding:0px;
+    padding-right: 2px;
+    margin:0px;
+    position:relative;
+}
+
+.viewsIcon
+{
+    border: "0px solid #000000";
+    outline: "0px solid #000000";
+    display:inline-block;
+    background-repeat:no-repeat;
+    width:18px;
+    height:10px;
+    background-image:url('/img/views.png');
+    top:0px;
+    left:0px;
+    padding:0px;
+    padding-right: 2px;
+    margin:0px;
+    position:relative;
+}
+
+
+.commentsIcon
+{
+    border: "0px solid #000000";
+    outline: "0px solid #000000";
+    display:inline-block;
+    top:3px;
+    left:0px;
+    padding:0px;
+    padding-right: 2px;
+    margin:0;
+    position:relative;
+}
+
+.dialogCloseButton
+{
+    right:8px;
+    top: 4px;
+    width:22px;
+    height:22px;
+    position: absolute;
+    background-image: url("/img/close.png");
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.dialogCloseButton:hover
+{
+    box-shadow: inset 0px 0px 4px 2px #ffffff, 0px 0px 4px 2px #ffffff;
+}
+
+.dialogContentButtons
+{
+     padding:0;
+     border:0;
+     text-align: justify;
+     left: 24px;
+     bottom:40px;
+     position:absolute;
+}
+
+.dialogButton
+{
+    text-align: center;
+    vertical-align: middle;
+    marginLeft: 12px;
+    display: inline-block;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    padding-bottom:5px;
+    padding-top:4px;
+    padding-left: 8px;
+    padding-right: 8px;
+    margin-left:4px;
+    margin-right:4px;
+    text-decoration: none;
+    color:#000000;
+    width: 80px;
+    -moz-transition:    background-color 0.15s linear, color 0.15s linear;
+    -webkit-transition: background-color 0.15s linear, color 0.15s linear;
+    transition:         background-color 0.15s linear, color 0.15s linear;
+}
+
+.dialogButton:hover
+{
+  background-color:#808080;
+  color : #ff8020;
+}
+
+
+
+
+.dialogCloseButton:hover
+{
+    box-shadow: inset 0px 0px 4px 2px #ffffff, 0px 0px 4px 2px #ffffff;
+}
+
+
+.dialogContent
+{
+    overflow: auto;
+    width:100%;
+    height:100%;
+    left: 0px;
+    top: 32px;
+    position:absolute
+}
+
+.dialogContentBody
+{
+     width:100%;
+     height:auto;
+     padding-top:24px;
+     padding-bottom:24px;
+     padding-left:24px;
+     padding-right:24px;
+     text-align: left;
+}
+
+.formButton
+{
+    font-weight:bold;
+	color:#ffffff;
+	border:none;
+    text-align:center;
+	background-color:#808080;
+    border-radius: 4px;
+	padding-left:8px;
+	padding-right:8px;
+	padding-top:4px;
+	padding-bottom:4px;
+    cursor:pointer;
+    min-width:80px;
+}
+
+.formButton:hover
+{
+	background-color: #e0e0e0;
+}
+
+.formButton:disabled
+{
+	color:#b0b0b0;
+	background-color:#808080;
+}
+
+.formText
+{
+    padding-left:2%;
+    padding-right:2%;
+    text-align: left;
+    color:#000000;
+    background-color:#ffffff;
+    outline: none;
+    border-radius: 4px;
+    border: 1px solid #808080;
+    resize: none;
+}
+
+
+.shaderPreview
+{
+    display: block;
+    background-color: #000000;
+    background-image: url("/img/loading.gif");
+    background-repeat: no-repeat;
+    background-position: center;
+    color: #ffffff;
+    padding: 0px;
+    margin: 0px;
+    border-radius: 8px;
+    border: "1px solid #606060";
+}
+
+.previewText
+{
+    font-style:italic;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    width:220px;
+    color: #000000;
+    padding-right: 1px;
+    left: 0px;
+    top: 0px;
+    position: absolute;
+}
+
+.previewStats
+{
+    font-style:italic;
+    color: #000000;
+    padding-right: 1px;
+    right: 0px;
+    top: 0px;
+    position: absolute;
+}
+
+/* ----------------------- media resolutions ------------------------ */
+/* we support 1024px and widder only */
+
+@media screen and (max-width:1279px)
+{
+    div#headerCuadradito {
+        background-color: #ff0000;
+    }
+    body
+    {
+        font-size:9px;
+    }
+    div#content
+    {
+        width: 1010px;
+        //height:84%;
+        top:58px;
+    }
+    div#contentScroll
+    {
+        width: 990px;
+    }
+    div#headerContent 
+    {
+        width: 1010px;
+    }
+    a#headerTitle
+    {
+        font-size:24px;
+    }
+    a.headerLinks
+    {
+        padding-top:14px;
+        padding-bottom:14px;
+    }
+    a#headerBrowser {
+        left: 860px;
+    }
+    a#headerCreateNew
+    {
+        left: 600px;
+    }
+    div#headerSearch
+    {
+        top: 7px;
+        left: 120px;
+        height: 32px;
+        width: 180px;
+    }
+    input#mySearch
+    {
+        width:300px;
+        top:0px;
+        left:21px;
+        height:22px;
+        border-radius:6px;
+        padding-left:8px;
+        padding-right:8px;
+    }
+    div#footerContent
+    {
+        width: 1010px;
+    }
+    .previewText
+    {
+        width:130px;
+    }
+}
+
+@media screen and (min-width:1280px) and (max-width:1439px)
+{
+    div#headerCuadradito {
+        background-color: #ff00ff;
+    }
+    body
+    {
+        font-size:11px;
+    }
+    div#content
+    {
+        width: 1260px;
+        //height:85%;
+        top:64px;
+    }
+    div#contentScroll
+    {
+        width: 1240px;
+    }
+    div#headerContent {
+        width: 1260px;
+    }
+    a#headerTitle
+    {
+        font-size:28px;
+    }
+    a.headerLinks
+    {
+        padding-top:14px;
+        padding-bottom:14px;
+    }
+    a#headerBrowser {
+        left: 760px;
+    }
+    a#headerCreateNew
+    {
+        left: 860px;
+    }
+    div#headerSearch
+    {
+        top: 7px;
+        left: 300px;
+        height: 32px;
+        width: 300px;
+    }
+    input#mySearch
+    {
+        width:300px;
+        top:0px;
+        left:21px;
+        height:22px;
+        border-radius:6px;
+        padding-left:8px;
+        padding-right:8px;
+    }
+    div#footerContent
+    {
+        width: 1260px;
+    }
+    .dialogHeader
+    {
+        height:28px;
+    }
+    .previewText
+    {
+        width:180px;
+    }
+}
+
+@media screen and (min-width:1440px) and (max-width:1919px)
+{
+    div#headerCuadradito {
+        background-color: #ffff00;
+    }
+    body
+    {
+        font-size:12px;
+    }
+    div#content
+    {
+        width: 1420px;
+        //height:88%;
+        top:64px;
+    }
+    div#contentScroll
+    {
+        width: 1400px;
+    }
+    div#headerContent {
+        width: 1400px;
+    }
+    a#headerTitle
+    {
+        font-size:28px;
+    }
+    a.headerLinks
+    {
+        padding-top:14px;
+        padding-bottom:14px;
+    }
+    a#headerBrowser {
+        left: 860px;
+    }
+    a#headerCreateNew
+    {
+        left: 940px;
+    }
+    div#headerSearch
+    {
+        top: 7px;
+        left: 300px;
+        height: 32px;
+        width: 300px;
+    }
+    input#mySearch
+    {
+        width:300px;
+        top:0px;
+        left:21px;
+        height:22px;
+        border-radius:6px;
+        padding-left:8px;
+        padding-right:8px;
+    }
+    div#footerContent
+    {
+        width: 1400px;
+    }
+    .dialogHeader
+    {
+        height:28px;
+    }
+    .previewText
+    {
+        width:180px;
+    }
+}
+
+@media screen and (min-width:1920px) and (max-width:2559px)
+{
+    div#headerCuadradito {
+        background-color: #ffffff;
+    }
+    body
+    {
+        font-size:12px;
+    }
+    div#content
+    {
+        width: 1800px;
+        //height: 90%;
+        top:64px;
+    }
+    div#contentScroll
+    {
+        width: 1780px;
+    }
+    div#headerContent {
+        width: 1800px;
+    }
+    a#headerTitle
+    {
+        font-size:28px;
+    }
+    a.headerLinks
+    {
+        padding-top:14px;
+        padding-bottom:14px;
+    }
+    a#headerBrowser {
+        left: 860px;
+    }
+    a#headerCreateNew
+    {
+        left: 940px;
+    }
+    div#headerSearch
+    {
+        top: 7px;
+        left: 300px;
+        height: 32px;
+        width: 300px;
+    }
+    input#mySearch
+    {
+        width:300px;
+        left:21px;
+        height:22px;
+        border-radius:6x;
+        padding-left:8px;
+        padding-right:8px;
+    }
+    div#footerContent
+    {
+        width: 1800px;
+    }
+    .dialogHeader
+    {
+        height:32px;
+    }
+    .previewText
+    {
+        width:220px;
+    }
+}
+
+@media screen and (min-width:2560px) {
+    div#headerCuadradito {
+        background-color: #000000;
+    }
+
+    body {
+        font-size: 18px;
+    }
+
+    div#content {
+        width: 2400px;
+//        height: 95%;
+        top: 64px;
+    }
+
+    div#contentScroll {
+        width: 2380px;
+    }
+
+    div#headerContent {
+        width: 2400px;
+    }
+
+    a#headerTitle {
+        font-size: 28px;
+    }
+
+    a.headerLinks {
+        padding-top: 14px;
+        padding-bottom: 14px;
+    }
+
+    a#headerBrowser {
+        left: 860px;
+    }
+    a#headerCreateNew
+    {
+        left: 940px;
+    }
+    div#headerSearch
+    {
+        top: 7px;
+        left: 300px;
+        height: 32px;
+        width: 300px;
+    }
+    input#mySearch
+    {
+        width:300px;
+        left:21px;
+        height:22px;
+        border-radius:6px;
+        padding-left:8px;
+        padding-right:8px;
+    }
+    div#footerContent
+    {
+        width: 2400px;
+    }
+    .dialogHeader
+    {
+        height:32px;
+    }
+    .previewText
+    {
+        width:220px;
+    }
+}
+

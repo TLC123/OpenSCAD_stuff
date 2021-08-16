@@ -1,0 +1,1 @@
+ rotate_extrude($fn=40){  square([1,1]);}

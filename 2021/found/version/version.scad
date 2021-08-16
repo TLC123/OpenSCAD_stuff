@@ -1,0 +1,1 @@
+text("customizer is running openscad version: "str(version()));
