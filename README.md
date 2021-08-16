@@ -19,7 +19,7 @@
          YourObject1();
          YourObject2(); 
          YourMask();
-         YourMask();
+         YourMask(); // multi-mask not implemented
          
          // ...
          // ...
