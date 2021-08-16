@@ -13,6 +13,12 @@
          YourObject1();
          YourObject2(); 
          YourMask();
+         YourMask();
+         
+         // ...
+         // ...
+         // ...
+         
         } 
     limitations: 
      0. Only really fast when boolean operands are convex, 
