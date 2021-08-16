@@ -1,30 +1,23 @@
- 
-////////////////////////////////////////////////////////
-/*
-unionRound Module by Torleif Ceder - TLC123 late summer 2021
- Pretty fast Union with radius, But limited to subset of cases
-Usage 
- unionRound( radius , detail , epsilon= 0.00001){ YourObject();YourObject(); YourIsolatingMASKObject(); } 
-limitations: 
- 0. Only really fast when boolean operands are convex, Minkowski is fast in that case. 
- 1. Boolean operands may be concave but can only touch in a single convex area
- 2. Radius is of elliptic type and is only approximate r were operand intersect at perpendicular angle. 
- 3. For chamfer detail can be set to 1 with approximate double the radius  
+    ////////////////////////////////////////////////////////
+    /*
+    unionRound() 1.0 Module by Torleif Ceder - TLC123 late summer 2021
+     Pretty fast Union with radius, But limited to a subset of cases
+    Usage 
+     unionRound( radius , detail  )
+        {
+         YourObject1();
+         YourObject2(); 
+        } 
 
-
-
-Full function:
-module unionRound( 
-radius=1,                // fillet radius
-detail=5,               //  fillet detail
-epsilon = 0.00001,      // some numeric  CGAL issues resolve with different value
-showIsolators = false,  // visualize isolation masks in red
-forceFaster=true,       // force all operands to be convex before minkowski
-microTranslateSeed=.1   // some numeric  CGAL issues resolve with micro-translations
-)
-
-*/
-////////////////////////////////////////////////////////
+    limitations: 
+     0. Only really fast when boolean operands are convex, 
+            Minkowski is fast in that case. 
+     1. Boolean operands may be concave but can only touch 
+            in a single convex area
+     2. Radius is of elliptic type and is only approximate r
+            were operand intersect at perpendicular angle. 
+    */
+    //////////////////////////////////////////////////////// 
 // demo code
  $fn=$preview ?8:18;
  difference(){
