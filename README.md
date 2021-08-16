@@ -4,20 +4,30 @@
 
 [addressing issue 844](https://github.com/openscad/openscad/issues/884#issuecomment-898877935)
 
-unionRound Module by Torleif Ceder - TLC123 late summer 2021
+unionRound 1.0 Module by Torleif Ceder - TLC123 late summer 2021
  Pretty fast Union with radius, But limited to subset of cases
  
- Usage 
+ Usage:
+ 
  unionRoundMask( radius , detail , epsilon= 0.00001)
-  { 
+ 
+ { 
+ 
    YourObject1();  
+   
    YourObject2(); 
+   
       YourMask1(); 
+      
       YourMask2(); 
+      
       // ...
+      
       // ...
+      
       // ...
-  } 
+ 
+ } 
 
 limitations:
 
