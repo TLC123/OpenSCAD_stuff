@@ -109,7 +109,7 @@ else
 module clad(r) {
     minkowski() {
         children();
-          icosphere(r,2); 
+          isosphere(r,70); 
     }
 }
 // unionRound helper
@@ -143,38 +143,56 @@ function lerp(start, end, bias) = (end * bias + start * (1 - bias));
                         
                          
 
+//
+//module icosphere(r,s)
+//{
+// pf=ico();
+//  scale(r)hull()
+// for(f=pf[1]){
+//     p3=[for(i=f)pf[0][i]];
+// subpoly(p3,s);
+//    
+//    }}
+//
+//
+// module subpoly(p,s=3){
+//     if(s>0){
+//         p0=un(p[0]);p1=un(p[1]);p2=un(p[2]);
+//         p01=un((p0+p1)/2);p12=un((p1+p2)/2); p20=un((p2+p0)/2);
+//          hull() {
+//         subpoly([p0,p01,p20],s-1);
+//         subpoly([p01,p1,p12],s-1);
+//         subpoly([p12,p2,p20],s-1);
+//         subpoly([p01,p12,p20],s-1);
+//          }
+//         }
+//     else{
+//         
+//         polyhedron(p,[[0,1,2]]);
+//         }
+//      
+//     }
+//     function ico( )=
+//let(a=1,r=1*(1+sqrt(5))/2,pf=[[[0,-r,a],[0,r,a],[0,r,-a],[0,-r,-a],[a,0,r],[-a,0,r],[-a,0,-r],[a,0,-r],[r,a,0],[-r,a,0],[-r,-a,0],[r,-a,0]],[[0,5,4],[0,4,11],[11,4,8],[11,8,7],[4,5,1],[4,1,8],[8,1,2],[8,2,7],[1,5,9],[1,9,2],[2,9,6],[2,6,7],[9,5,10],[9,10,6],[6,10,3],[6,3,7],[10,5,0],[10,0,3],[3,0,11],[3,11,7]]]) 
+//pf
+//;
+//      function un(v) = v / max(norm(v), 1e-64) * 1;  
+//     
+    /*    
+    // The following is a sphere with some equidistant properties.
+    // Not strictly necessary
 
-module icosphere(r,s)
-{
- pf=ico();
-  scale(r)hull()
- for(f=pf[1]){
-     p3=[for(i=f)pf[0][i]];
- subpoly(p3,s);
+    Kogan, Jonathan (2017) "A New Computationally Efficient Method for Spacing n Points on a Sphere," Rose-Hulman Undergraduate Mathematics Journal: Vol. 18 : Iss. 2 , Article 5.
+    Available at: https://scholar.rose-hulman.edu/rhumj/vol18/iss2/5 */
     
-    }}
-
-
- module subpoly(p,s=3){
-     if(s>0){
-         p0=un(p[0]);p1=un(p[1]);p2=un(p[2]);
-         p01=un((p0+p1)/2);p12=un((p1+p2)/2); p20=un((p2+p0)/2);
-          hull() {
-         subpoly([p0,p01,p20],s-1);
-         subpoly([p01,p1,p12],s-1);
-         subpoly([p12,p2,p20],s-1);
-         subpoly([p01,p12,p20],s-1);
-          }
-         }
-     else{
-         
-         polyhedron(p,[[0,1,2]]);
-         }
-      
-     }
-     function ico( )=
-let(a=1,r=1*(1+sqrt(5))/2,pf=[[[0,-r,a],[0,r,a],[0,r,-a],[0,-r,-a],[a,0,r],[-a,0,r],[-a,0,-r],[a,0,-r],[r,a,0],[-r,a,0],[-r,-a,0],[r,-a,0]],[[0,5,4],[0,4,11],[11,4,8],[11,8,7],[4,5,1],[4,1,8],[8,1,2],[8,2,7],[1,5,9],[1,9,2],[2,9,6],[2,6,7],[9,5,10],[9,10,6],[6,10,3],[6,3,7],[10,5,0],[10,0,3],[3,0,11],[3,11,7]]]) 
-pf
-;
-      function un(v) = v / max(norm(v), 1e-64) * 1;  
-     
+    function sphericalcoordinate(x,y)=  [cos(x  )*cos(y  ), sin(x  )*cos(y  ), sin(y  )];
+    function NX(n,x)= 
+    let(toDeg=57.2958,PI=acos(-1)/toDeg,
+    start=(-1.+1./(n-1.)),increment=(2.-2./(n-1.))/(n-1.) )
+    [ for (j= [0:n-1])let (s=start+j*increment )
+    sphericalcoordinate(   s*x*toDeg,  PI/2.* sign(s)*(1.-sqrt(1.-abs(s)))*toDeg)];
+    function generatepoints(n)= NX(n,0.1+1.2*n);
+    module isosphere(r,detail){
+    a= generatepoints(detail);
+    scale(r)hull()polyhedron(a,[[for(i=[0:len(a)-1])i]]);
+    }

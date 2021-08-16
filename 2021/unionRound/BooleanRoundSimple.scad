@@ -111,8 +111,12 @@ differenceRound(1.5, 1) {
             children();
         }
     }
- /*   A New Computationally Efficient Method for Spacing n Points on 
-a Sphere - Jonathan Kogan  */
+    /*    
+    // The following is a sphere with some equidistant properties.
+    // Not strictly necessary
+
+    Kogan, Jonathan (2017) "A New Computationally Efficient Method for Spacing n Points on a Sphere," Rose-Hulman Undergraduate Mathematics Journal: Vol. 18 : Iss. 2 , Article 5.
+    Available at: https://scholar.rose-hulman.edu/rhumj/vol18/iss2/5 */
 function sphericalcoordinate(x,y)=  [cos(x  )*cos(y  ), sin(x  )*cos(y  ), sin(y  )];
 function NX(n,x)= 
 let(toDeg=57.2958,PI=acos(-1)/toDeg,

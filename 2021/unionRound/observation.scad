@@ -1,3 +1,24 @@
+    ////////////////////////////////////////////////////////
+    /*
+    unionRound() dicovery 0.0  Module by Torleif Ceder - TLC123 late summer 2021
+     Pretty fast Union with radius, But limited to a subset of cases
+    Usage 
+     unionRound( radius , detail , epsilon )
+        {
+         YourObject();
+         YourObject(); 
+        } 
+    limitations: 
+     0. Only really fast when boolean operands are convex, 
+            Minkowski is fast in that case. 
+     1. Boolean operands may be concave but can only touch 
+            in a single convex area
+     2. Radius is of elliptic type and is only approximate r
+            were operand intersect at perpendicular angle. 
+    */
+    //////////////////////////////////////////////////////// 
+
+
 unionRound(1, 1) {
     translate([2, 5, 5]) sphere(7);
      rotate([10, 20, 30]) cube(10, true);
