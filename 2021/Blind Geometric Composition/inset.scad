@@ -1,17 +1,19 @@
- BBoxDetranslate() translate([30,0,1])rotate([10,02,30])cylinder(10,1,1);
+  BBoxDetranslate() {
+        translate([1,0,1]) cube(5);
  
- module BBoxDetranslate(){
-     #children();
-     scale(.5)
-     minkowski(){
-     children();
-     mirror([1,0,0])
-     mirror([0,1,0])
-     mirror([0,0,1])
-     children();
+ 
      
      }
-     }
+ module BBoxDetranslate(){
+          hull()children();
+    # scale(.5)
+         minkowski(){
+            hull() children();
+             mirror([1,0,0])      mirror([0,1,0])      mirror([0,0,1])
+            hull() children();
+         
+         }
+ }
  
 module inset(r,q=20){
   a= generatepoints(q)*r;
@@ -26,17 +28,17 @@ intersection_for(t=a){
 
 
     // unionRound helper expand by r
-    module clad(r) {
+    module clad(r,q=20) {
         minkowski() {
             children();
             //        icosphere(r,2);
-             isosphere(r,20); 
+             isosphere(r,q); 
         }
     }
     // unionRound helper
-    module shell(r) {
+    module shell(r,q) {
         difference() {
-            clad(r) children();
+            clad(r,q) children();
             children();
         }
     }
