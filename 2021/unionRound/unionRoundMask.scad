@@ -3,16 +3,22 @@
     unionRound() 1.0 Module by Torleif Ceder - TLC123 late summer 2021
      Pretty fast Union with radius, But limited to a subset of cases
     Usage 
-     unionRound( radius , detail , epsilon )
+     unionRound( radius , detail  )
         {
          YourObject1();
          YourObject2(); 
         } 
-      unionRoundMask (r, detail ,showMask )
+      unionRoundMask (r, detail , epsilon ,showMask )
         {
          YourObject1();
          YourObject2(); 
          YourMask();
+         YourMask();  // multimask not implemented
+         
+         // ...
+         // ...
+         // ...
+         
         } 
     limitations: 
      0. Only really fast when boolean operands are convex, 
@@ -34,7 +40,7 @@
     
     // end of demo code
     //
-
+    // todo multi-mask iteraation
       module unionRoundMask(r, detail = 5,  epsilon = 1e-6,showMask=true) {
             children(0);
             children(1);
