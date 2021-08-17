@@ -1,5 +1,40 @@
-epsilon = 1e-6;
+ /* 
+ Blind Geometric Composition  Torleif Ceder / TLC123 late summer 2021
 
+ Within OpenSCAD the parameter evaluation is blind to resultant geometry.
+ Here i collect operations that can reason and store result in intermediate shapes
+ Thin slivers of epsilon thickness plays a important roll as 2d planes.
+ We cannot scale  object in place without also translating them.
+ We cannot rotate object in place without also translating them.
+ 
+ Lets build up a language of blind operations.  
+ clad()
+ inset()
+ shell()
+ 
+ From this we can construct a solid boundingbox
+ That gives we can select the epsilon thic wall on each side
+ 
+ BBoxUnTranslate()
+ Strips the bounding box of translation and fix it to the origo.
+ Frward caled a neutralized bounding box
+ There we can scale it to half size or epsilon thin features
+
+ BBoxHalf()
+ Those can then be minkowski composed with one perpendicular thin wall slice.
+ This effectively blindly replicates a boundingbox identical to the original but now translated half its own size without ever measuring itts dimentions. Pure mathemagics.
+
+ Each bounding wall can be minkowski-summed 
+ with a neutrilzed boundingbox, freely arbitrary in the face normal direction.
+ 
+ Thereby we show that any cube within the bounding box
+ can be constructed by intersecting a overlaping set of expanded boundingwalls
+ 
+ Whith this language we can construct epsilon thin midplanes, axises, midpoints. Any any epsilon small cube in the bounding box can be minkowskied with arbitrary geomety. 
+ 
+ more to come
+ 
+ */
 range=[-1:1];
 for(x=range,y=range,z=range){
 translate([x,y,z]*10)
@@ -14,16 +49,16 @@ if(abs(x)+abs(y)+abs(z)==1)BBoxHalf([x,y,z])translate([-10,20,30])cube(10);
      crosswall=
          abs(d.x)==1?[0,0,1]:
          abs(d.y)==1?[1,0,0]:
-         [1,0,0];
+         [1,0,1];
      intersection(){
             color("red")children();
 
             minkowski(){    
-                BboxWall(d)
+                BBoxWall(d)
                     children();
                 scale(crossscale)
                     BBoxUnTranslate() 
-                        BboxWall(crosswall)
+                        BBoxWall(crosswall)
                             children();
             }
 } 
@@ -34,7 +69,7 @@ if(abs(x)+abs(y)+abs(z)==1)BBoxHalf([x,y,z])translate([-10,20,30])cube(10);
 
 
 
-module BboxWall(d=[0,0,1],  epsilon = 1e-6)
+module BBoxWall(d=[0,0,1],  epsilon = 1e-6)
 {
 difference(){
     
