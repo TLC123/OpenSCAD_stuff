@@ -6,6 +6,8 @@
  Thin slivers of epsilon thickness plays a important roll as 2d planes.
  We cannot scale  object in place without also translating them.
  We cannot rotate object in place without also translating them.
+ All operations degrade processed geometry with epsilon sized smear.
+ Dublicated close vertices at cornes and more is expected.  
  
  Lets build up a language of blind operations.  
  clad()
@@ -32,16 +34,46 @@
  
  Whith this language we can construct epsilon thin midplanes, axises, midpoints. Any any epsilon small cube in the bounding box can be minkowskied with arbitrary geomety. 
  
+ if we construct a midpoint, the counter point, the sperical mirror
+ aacross origo
+ 
+ 
  more to come
  
  */
-range=[-1:1];
-for(x=range,y=range,z=range){
-translate([x,y,z]*10)
-if(abs(x)+abs(y)+abs(z)==1)BBoxHalf([x,y,z])translate([-10,20,30])cube(10);
+//range=[-1:1];
+//for(x=range,y=range,z=range){
+//translate([x,y,z]*10)
+//if(abs(x)+abs(y)+abs(z)==1)BBoxHalf([x,y,z])translate([-10,20,30])cube(10);
+//
+//}
 
-}
- module BBoxHalf(d,  epsilon = 1e-6){
+t=rands(-10,10,3);
+epsilon=10e-6;
+
+
+// #BBoxHalf()
+// BBox()
+//geom(t);
+ BBox()
+geom(t);
+
+
+
+module geom(t){ translate(t){
+    
+   rotate([10,20,30]) cube([1,2,3]);
+   rotate([20,10,40]) cube([1,2,3]);
+
+    }}
+
+//minkowski (){
+// translate(t) hull()
+
+//translate(-t)cube(epsilon);
+//}
+
+ module BBoxHalf(d=[0,0,-1],  epsilon = 1e-6){
      crossscale=
          abs(d.x)==1?[1,epsilon,1]:
          abs(d.y)==1?[epsilon,1,1]:
@@ -51,15 +83,15 @@ if(abs(x)+abs(y)+abs(z)==1)BBoxHalf([x,y,z])translate([-10,20,30])cube(10);
          abs(d.y)==1?[1,0,0]:
          [1,0,1];
      intersection(){
-            color("red")children();
+            color("red")hull()children();
 
             minkowski(){    
                 BBoxWall(d)
-                    children();
+                    hull()children();
                 scale(crossscale)
                     BBoxUnTranslate() 
                         BBoxWall(crosswall)
-                            children();
+                            hull()children();
             }
 } 
 }
@@ -113,7 +145,54 @@ intersection_for(t=a){
             //        icosphere(r,2);
              isosphere(r,q); 
         }
+    }   
+   
+   module BBox(){
+intersection(){
+ cladX()hull()  children() ;
+ cladY()hull()  children() ;
+ cladZ()hull()  children() ;
+    
     }
+}
+    module cladX(r,q=20) {
+         hull()minkowski() {
+            hull()children();
+             
+            rotate([  0,0,0])scale([epsilon,1,1])hull()children();
+            rotate([ 90,0,0])scale([epsilon,1,1])hull()children();
+            rotate([180,0,0])scale([epsilon,1,1])hull()children();
+            rotate([270,0,0])scale([epsilon,1,1])hull()children();
+        
+            
+            }
+    }
+        module cladY(r,q=20) {
+         hull()minkowski() {
+            hull()children();
+             
+            rotate([0,  0,0 ])scale([1,epsilon,1])hull()children();
+            rotate([0, 90,0 ])scale([1,epsilon,1])hull()children();
+            rotate([0,180,0 ])scale([1,epsilon,1])hull()children();
+            rotate([0,270,0 ])scale([1,epsilon,1])hull()children();
+        
+            
+            }
+    }
+        module cladZ(r,q=20) {
+         hull()minkowski() {
+            hull()children();
+             
+            rotate([0,0,  0 ])scale([1,1,epsilon])hull()children();
+            rotate([0,0, 90 ])scale([1,1,epsilon])hull()children();
+            rotate([0,0,180 ])scale([1,1,epsilon])hull()children();
+            rotate([0,0,270 ])scale([1,1,epsilon])hull()children();
+        
+            
+            }
+    }
+    
+    
     // unionRound helper
     module shell(r,q) {
         difference() {
