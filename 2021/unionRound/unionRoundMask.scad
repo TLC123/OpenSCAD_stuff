@@ -44,7 +44,7 @@
       module unionRoundMask(r, detail = 5,  epsilon = 1e-6,showMask=true) {
             children(0);
             children(1);
-            if(showMask)#children(2);
+            if(showMask)%children(2);
           intersection(){
                  children(2);
                  unionRound(r, detail,  epsilon ) {
@@ -67,7 +67,7 @@
         children(0);
         children(1);
         step = 90 / detail;
-      for (i = [0:  detail-1]) {
+      union()for (i = [0:  detail-1]) {
             {
                 x = r - sin(i * step ) * r;
                 y = r - cos(i * step ) * r;
