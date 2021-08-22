@@ -29,20 +29,19 @@
             were operand intersect at perpendicular angle. 
     */
     //////////////////////////////////////////////////////// 
-    // Demo code
+     // Demo code
     demo= true;
     if (demo)  
-     unionIntersection(.25, 5) {
+     union()for(i=[0:360/5:360-360/5])unionRoundMask(1.5, 5) {
      cube([10,10,2],true);
-     rotate([20,-10,0])cylinder(5,1,1,$fn=12);   
-//     cube([1.5,10,6],center=true); //mask
-//      rotate(90)
-//     cube([1.5,10,6],center=true); //mask
+     rotate(i)translate ([4,0,0])rotate([20,-10,0])cylinder(5,1,1,$fn=12);   
+     rotate(i) translate ([4,0,0])cylinder(2.5,3.5,3.5 ); //mask
+   
     }
     
     // end of demo code
     //
- module unionRoundMask(r, detail = 5, epsilon = 1e-6, showMask = true) {
+    module unionRoundMask(r, detail = 5, epsilon = 1e-6, showMask = true) {
     //automask if none
     if($children <=2){
         unionRoundMask(r,detail,epsilon,showMask)
@@ -114,30 +113,16 @@
         }
     }
     
-      module unionIntersection(r, detail = 5,  epsilon = 1e-6) {
-        
-        
-//        step = 90 / detail;
-//      union()for (i = [0:  detail-1]) {
-//            {
-//                x = r - sin(i * step ) * r;
-//                y = r - cos(i * step ) * r;
-//                xi = r - sin((i * step + step)  ) * r;
-//                yi = r - cos((i * step + step)  ) * r;
-//                color(rands(0, 1, 3, i))
-//                hull() {
+    module unionIntersection(r, detail = 5,  epsilon = 1e-6,showOperands = true) {
+        %if (showOperands){children(0);
+        children(1);}
+ 
                     clad(r,30) inset(r,70)
-                          intersection() {
+                     hull()intersection() {
                            children(0);
                            children(1);
                     }
-//                    inset(1)intersection() {
-//                           children(0);
-//                           children(1);
-//                    }
-//                }
-//            }
-//        }
+ 
     }
     
     // unionRound helper expand by r
