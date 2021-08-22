@@ -13,7 +13,7 @@
          YourObject1();
          YourObject2(); 
          YourMask();
-         YourMask();  // multimask not implemented
+         YourMask();   
          
          // ...
          // ...
@@ -42,8 +42,7 @@
     
     // end of demo code
     //
-    // todo multi-mask iteraation
-module unionRoundMask(r, detail = 5, epsilon = 1e-6, showMask = true) {
+ module unionRoundMask(r, detail = 5, epsilon = 1e-6, showMask = true) {
     //automask if none
     if($children <=2){
         unionRoundMask(r,detail,epsilon,showMask)
