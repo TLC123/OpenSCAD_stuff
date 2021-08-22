@@ -62,8 +62,8 @@ geom(t);
 
 module geom(t){ translate(t){
     
-   rotate([10,20,30]) cube([1,2,3]);
-   rotate([20,10,40]) cube([1,2,3]);
+   rotate([10,20,30]) cube([10,20,30]);
+   rotate([20,10,40]) cube([10,20,30]);
 
     }}
 

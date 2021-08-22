@@ -35,31 +35,54 @@
      unionRoundMask(1.5, 5) {
      cube([10,10,2],true);
      rotate([20,-10,0])cylinder(5,1,1,$fn=12);   
-     cube([.5,10,6],center=true); //mask
+     cube([1.5,10,6],center=true); //mask
+      rotate(90)
+     cube([1.5,10,6],center=true); //mask
     }
     
     // end of demo code
     //
     // todo multi-mask iteraation
-      module unionRoundMask(r, detail = 5,  epsilon = 1e-6,showMask=true) {
+module unionRoundMask(r, detail = 5, epsilon = 1e-6, showMask = true) {
+    //automask if none
+    if($children <=2){
+        unionRoundMask(r,detail,epsilon,showMask)
+        {
             children(0);
             children(1);
-            if(showMask)%children(2);
-          intersection(){
-                 children(2);
-                 unionRound(r, detail,  epsilon ) {
-                    intersection(){
-                        children(0);
-                        children(2); // mask
-                       }
-                    intersection(){
-                        children(1);
-                        children(2);// mask
-                       }  
-              }
-          }
-       }
-    
+            clad(r) intersection(){
+                    children(0);
+                    children(1);
+                }
+            }
+            }
+    else {
+    union() {
+        children(0);
+        children(1);
+        if (showMask && $children > 2) %
+            for (i = [2: max(2, $children - 1)]) children(i);
+
+        if ($children > 2)
+            for (i = [2: max(2, $children - 1)]) {
+                intersection() {
+                    children(i);
+
+                    unionRound(r, detail, epsilon) {
+                        intersection() {
+                            children(0);
+                            children(i); // mask
+                        }
+                        intersection() {
+                            children(1);
+                            children(i); // mask
+                        }
+                    }
+                }
+            }
+        }
+     }
+}
     
     
     module unionRound(r, detail = 5,  epsilon = 1e-6) {
@@ -92,17 +115,17 @@
         }
     }
     // unionRound helper expand by r
-    module clad(r) {
+    module clad(r,q=70) {
         minkowski() {
             children();
             //        icosphere(r,2);
-             isosphere(r,70); 
+             isosphere(r,q); 
         }
     }
     // unionRound helper
-    module shell(r) {
+    module shell(r,q=70) {
         difference() {
-            clad(r) children();
+            clad(r,q) children();
             children();
         }
     }
