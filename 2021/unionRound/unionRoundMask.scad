@@ -114,6 +114,7 @@
         }
     }
     
+    // prototype module slow maybe on concave feature
     module intersectionRound(r, q=70,  epsilon = 1e-6,showOperands = true) {
         %if (showOperands){children(0);
         children(1);}
